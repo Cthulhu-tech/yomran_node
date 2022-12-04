@@ -1,0 +1,32 @@
+@import '../../style/animation.scss';
+@import '../../style/colors.scss';
+
+.popup {
+    padding: 6px;
+    display: flex;
+    height: 190px;
+    border-radius: 20px;
+    align-items: center;
+    flex-direction: column;
+    background-color: $white;
+    justify-content: flex-end;
+    width: clamp(100px, 100%, 260px);
+}
+
+.popup-message {
+    text-align: center;
+    border-radius: 8px;
+    padding: 3px !important;
+}
+
+.popup-container {
+    width: 100%;
+    z-index: 100;
+    height: 100vh;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: $blackOpacity;
+}

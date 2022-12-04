@@ -1,0 +1,21 @@
+@import './colors.scss';
+
+.shadow_right {
+    border-right: 1px solid $gray;
+    box-shadow: 3px 3px 3px -3px $black;
+}
+
+.shadow_right-inset {
+    border-right: 1px solid $gray;
+    box-shadow: -3px -3px 3px -3px $black inset;
+}
+
+.shadow_left {
+    border-left: 1px solid $gray;
+    box-shadow: -3px -3px 3px -3px $black;
+}
+
+.shadow_left-inset {
+    border-left: 1px solid $gray;
+    box-shadow: 3px 3px 3px -3px $black inset;
+}

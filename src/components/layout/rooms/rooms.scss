@@ -1,0 +1,134 @@
+@import '../../../style/animation.scss';
+@import '../../../style/colors.scss';
+
+.rooms-container {
+    width: 100%;
+    display: flex;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-direction: column;
+    height: calc(100% - 148px);
+    justify-content: flex-start;
+}
+
+.room-wrapper {
+    display: flex;
+    min-height: 90px;
+    transition: $animationFast;
+    border-top: 1px solid $shadow;
+    &:hover {
+        background-color: $gray;
+    }
+    &:nth-child(1) {
+        border-top: none;
+    }
+}
+
+.room__message {
+    width: auto;
+    font-size: 12px;
+    overflow: hidden;
+    text-align: center;
+    border-radius: 4px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.room__message_name_open {
+    width: 120px;
+}
+
+.room__message_name_close {
+    width: 60px;
+}
+
+.room__message_name {
+    margin: 8px;
+    padding: 2px;
+    font-size: small;
+    background-color: $blueOpacity;
+}
+
+.room__message_last-message {
+    width: 90%;
+    padding: 4px;
+    font-size: small;
+    margin: 8px 24px 8px 12px;
+    background-color: $blueOpacity;
+}
+
+.room__message_last-message_data{
+    padding: 4px;
+    color: $black;
+    background-color: $blueOpacity;
+}
+
+.room-image {
+    border-radius: 100%;
+}
+
+.room-wrapper_data_close {
+    display: flex;
+    margin: 10px 0;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.room-wrapper_data_open {
+    padding: 5px;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    width: clamp(100px, 100%, 278px);
+}
+
+.room_close {
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.room_open {
+    flex-direction: column;
+}
+
+.image {
+    transition: $animationFast;
+}
+
+.image-wrapper{
+    margin: 0 2px;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.image-background {
+    background-color: $shadow;
+}
+
+.image-wrapper_border {
+    border-style: solid;
+    background-color: $white;
+    border-radius: 0 4px 4px 0;
+    border-color: $blackOpacity;
+    border-width: 1px 1px 1px 0;
+}
+
+.close-button {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    cursor: pointer;
+    min-width: 20px;
+    min-height: 20px;
+    border-radius: 100%;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: $blackOpacity;
+}

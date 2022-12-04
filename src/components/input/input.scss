@@ -1,0 +1,42 @@
+@import '../../style/colors.scss';
+
+.password-container {
+    display: flex;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    width: clamp(100px, 100%, 253px);
+}
+
+.input-flex {
+    padding: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 6px;
+    background-color: $blueOpacity;
+    border: 1px solid $blackOpacity;
+}
+
+.input {
+    outline: none;
+    margin: 5px 0;
+    width: clamp(100px, 100%, 253px);
+}
+
+.input-border {
+    padding: 0 4px;
+    min-height: 24px;
+    border-radius: 4px;
+    border: 1px solid  $blackOpacity;
+}
+
+.input-border_rigth {
+    padding: 0 4px;
+    min-height: 24px;
+    border-style: solid;
+    border-radius: 4px 0 0 4px;
+    border-color: $blackOpacity;
+    border-width: 1px 0 1px 1px;
+}

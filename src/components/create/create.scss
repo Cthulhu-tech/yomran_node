@@ -1,0 +1,24 @@
+@import '../../style/colors.scss';
+
+.form-container {
+    display: flex;
+    margin: 20px 10px;
+    min-height: 220px;
+    border-radius: 8px;
+    align-items: center;
+    flex-direction: column;
+    background-color: $white;
+    justify-content: space-between;
+    border: 1px solid $blackOpacity;
+    width: clamp(100px, calc(100% - 20px), 560px);
+    @media (max-width: 760px) {
+        border: 0px;
+    }
+}
+
+.close-wrapper {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    justify-content: flex-end;
+}

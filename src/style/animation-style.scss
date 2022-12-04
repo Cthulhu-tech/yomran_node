@@ -1,0 +1,21 @@
+@import './animation.scss';
+@import './colors.scss';
+@import './mixin.scss';
+
+.animation-background_fast {
+
+    @include background-hover($blackOpacity, $animationFast);
+
+}
+
+.animation-background_medium {
+
+    @include background-hover($blackOpacity, $animationMedium);
+
+}
+
+.animation-background_slow {
+
+    @include background-hover($blackOpacity, $animationSlow);
+
+}
