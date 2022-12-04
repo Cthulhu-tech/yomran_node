@@ -6,5 +6,5 @@ export type IUseFetch<T, U> = [
 ]
 
 export type ErrorData = {
-    message: string;
+    message: string,
 }
