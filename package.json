@@ -17,6 +17,8 @@
     "@types/react-dom": "^18.0.11",
     "electron-devtools-installer": "^3.2.0",
     "electron-reload": "^1.5.0",
+    "nat-api": "^0.3.1",
+    "node-notifier": "^10.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -33,13 +35,39 @@
     "eject": "react-scripts eject"
   },
   "build": {
+    "productName": "Yomran",
+    "copyright": "Copyright © 2023 Cthulhu-tech",
     "extends": null,
     "files": [
       "build/**/*"
     ],
-    "directories": {
-      "buildResources": "assets"
-    }
+    "appId": "Yomran",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "./icon.png",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "nsis": {
+      "installerIcon": "./icon.png",
+      "uninstallerIcon": "./icon.png",
+      "uninstallDisplayName": "Yomran",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "extraFiles": [
+      "credentials"
+    ],
+    "extraResources": [
+      {
+        "from": "./public/asssets",
+        "to": "assets",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -60,6 +88,7 @@
     ]
   },
   "devDependencies": {
+    "@types/node-notifier": "^8.0.2",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "electron": "^23.1.0",
