@@ -11,6 +11,10 @@ export class Window {
     this.window = new BrowserWindow({
       width: 800,
       height: 600,
+      frame: false,
+      minWidth: 800,
+      minHeight: 600,
+      resizable: true,
       webPreferences: {
         preload: path.join(__dirname, '/preload.js')
       }
@@ -42,6 +46,6 @@ export class Window {
     ipcMain.on('close', () => app.quit())
     ipcMain.on('min', () => this.window.minimize())
     ipcMain.on('max', () => this.window.isMaximized() ? this.window.unmaximize() : this.window.maximize())
-    ipcMain.on('new_message', (event, { message, chat }: notificationType) => !this.window.isFocused() && this.message.newMessageAlarm({ message, chat }))
+    ipcMain.on('new_message', (event, { message, chat }: notificationType) =>  this.message.newMessageAlarm({ message, chat }))
   }
 }
