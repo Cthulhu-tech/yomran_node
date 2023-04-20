@@ -1,5 +1,5 @@
 // @ts-ignore  
-const NatAPI = require('nat-api')
+import * as NatAPI from 'nat-api'
 
 export class Nat {
     client: typeof NatAPI
@@ -9,10 +9,12 @@ export class Nat {
     }
 
     public uPnp = (publicPort = 80, privatePort = 3000, ttl = 1800) => {
-        this.client.map({ publicPort, privatePort, ttl}, 
-        (err: Error) => {
-            if (err) return console.log('Error', err)
-            console.log('Port mapped!')
+        return new Promise((resolve, reject) => {
+            this.client.map({ publicPort, privatePort, ttl}, 
+                (err: Error) => {
+                    if (err) return reject(false)
+                    return resolve(true)
+                })
         })
     }
 

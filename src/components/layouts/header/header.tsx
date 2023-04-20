@@ -24,7 +24,7 @@ export const Header = () => {
                 <div className="header__icon minimize" onClick={min}>
                     
                 </div>
-                <div className="header__icon maximize" onClick={max}>
+                <div className={fullscreen ? "header__icon maximize-max" : "header__icon maximize-min"} onClick={max}>
                     
                 </div>
                 <div className="header__icon close" onClick={close}>

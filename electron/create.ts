@@ -1,7 +1,9 @@
-import { notificationType } from './src/interface/interface'
+import { crateChatType, notificationType } from './src/interface/interface'
 import { app, BrowserWindow, ipcMain } from 'electron'
-import { Message } from './src/message'
 import * as path from 'path'
+
+import { Chat } from './src/chat/chat'
+import { Message } from './src/message'
 
 export class Window {
   private window: BrowserWindow
@@ -46,6 +48,8 @@ export class Window {
     ipcMain.on('close', () => app.quit())
     ipcMain.on('min', () => this.window.minimize())
     ipcMain.on('max', () => this.window.isMaximized() ? this.window.unmaximize() : this.window.maximize())
-    ipcMain.on('new_message', (event, { message, chat }: notificationType) =>  this.message.newMessageAlarm({ message, chat }))
+    ipcMain.on('new_message', (event, { message, chat }: notificationType) => !this.window.isFocused() && this.message.newMessageAlarm({ message, chat }))
+
+    ipcMain.handle('create_chat', async (event, { chat_name, password }: crateChatType) => await new Chat(chat_name, password).getInfoConnect())
   }
 }

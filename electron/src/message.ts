@@ -10,7 +10,6 @@ export class Message {
         this.ASSETS_PATH = app.isPackaged ? path.join(process.resourcesPath, 'assets') : path.join(__dirname, `../../../public${path.sep}assets`)
     }
     public newMessageAlarm = ({ message, chat }: notificationType) => {
-        console.log(path.join(this.ASSETS_PATH, 'message.png'))
         notifier.notify({
             title: `Notification in chat ${chat}`,
             message,

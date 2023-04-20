@@ -1,3 +1,4 @@
+import { crateChatType, notificationType } from './src/interface/interface'
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('api', {
@@ -10,7 +11,10 @@ contextBridge.exposeInMainWorld('api', {
     maxAplication() {
         ipcRenderer.send('max');
     },
-    notification: (message: string) => {
-        ipcRenderer.send('new_message', message)
+    notification: ({ message, chat }: notificationType) => {
+        ipcRenderer.send('new_message', { message, chat })
+    },
+    create_chat: async ({ chat_name, password }: crateChatType) => {
+        return await ipcRenderer.invoke('create_chat', { chat_name, password })
     }
 })
