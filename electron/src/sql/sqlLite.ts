@@ -6,17 +6,27 @@ import { User } from './entity/user';
 
 
 export class Sql {
-  private static instance: Sql
+  private static instance: Sql = new Sql()
   private AppDataSource: DataSource
   constructor() {
     if (Sql.instance) return Sql.instance
     this.AppDataSource = new DataSource({
       type: "sqlite",
-      database: __dirname + './mydb.sqlite',
+      database: './mydb.sqlite',
       entities: [User, Message, Chat],
-      logging: true
+      synchronize: true,
+      logging: true,
     })
     Sql.instance = this
+  }
+  getUserEntity = () => {
+    return User
+  }
+  getMessageEntity = () => {
+    return Message
+  }
+  getChatEntity = () => {
+    return Chat
   }
   initSqlLite = async () => {
     return await this.AppDataSource.initialize()

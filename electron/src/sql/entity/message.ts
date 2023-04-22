@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -10,7 +11,7 @@ import { Chat } from './chat';
 import { User } from './user';
 
 @Entity("messages")
-export class Message {
+export class Message extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number
 

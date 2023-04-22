@@ -9,7 +9,8 @@ export class Message {
     constructor() {
         this.ASSETS_PATH = app.isPackaged ? path.join(process.resourcesPath, 'assets') : path.join(__dirname, `../../../public${path.sep}assets`)
     }
-    public newMessageAlarm = ({ message, chat }: notificationType) => {
+    public newMessageAlarm = async ({ message, chat }: notificationType) => {
+
         notifier.notify({
             title: `Notification in chat ${chat}`,
             message,

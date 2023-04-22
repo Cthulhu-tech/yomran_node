@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   OneToMany,
@@ -8,7 +9,7 @@ import {
 import { Message } from './message';
 
 @Entity("user")
-export class User {
+export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number
 
