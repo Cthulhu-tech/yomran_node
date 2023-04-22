@@ -1,8 +1,14 @@
-import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer"
-import { app, BrowserWindow } from 'electron'
-import { Window } from "./create"
+import {
+  app,
+  BrowserWindow,
+} from 'electron';
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+} from 'electron-devtools-installer';
 
-app.whenReady().then(() => {
+import { Window } from './create';
+
+app.whenReady().then(async () => {
   const _window = new Window()
 
   installExtension(REACT_DEVELOPER_TOOLS)

@@ -1,23 +1,21 @@
-import { createServer } from 'http';
+import { SocketServer } from './socket/socket';
 import * as portfinder from 'portfinder';
-import {
-  Server,
-  Socket,
-} from 'socket.io';
-
 import { Nat } from '../nat';
 
+
 const publicIp = require('public-ip')
-var jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
 export class Chat {
-    chat_name: string
-    password: string
-    nat: Nat
+    private chat_name: string
+    private password: string
+    private nat: Nat
+    private socket: SocketServer
     constructor(chat_name: string, password: string) {
         this.chat_name = chat_name
         this.password = password
         this.nat = new Nat()
+        this.socket = new SocketServer()
     }
     private GetPortFree = async () => {
         return portfinder.getPortPromise({
@@ -46,19 +44,6 @@ export class Chat {
     }
 
     private socketPortCreate = async (port: number) => {
-
-        const httpServer = await createServer()
-        const io = new Server(httpServer, {
-            cors: {
-                origin: '*'
-            }
-        })
-
-        io.on("connection", (socket: Socket) => {
-            console.log('connection', socket)
-            socket.emit('hello', 'world')
-        })
-
-        httpServer.listen(port)
+        await this.socket.createSocketServer(port)
     }
 }

@@ -11,10 +11,12 @@ import {
   notificationType,
 } from './src/interface/interface';
 import { Message } from './src/message';
+import { Sql } from './src/sql/sqlLite';
 
 export class Window {
   private window: BrowserWindow
   private message: Message
+  private sql: Sql
   constructor() {
     this.message = new Message()
     this.window = new BrowserWindow({
@@ -32,9 +34,16 @@ export class Window {
   public getWindow() {
     return this.window
   }
-  public windowOpen = () => {
-    if (app.isPackaged) this.window.loadURL(`file://${__dirname}/../index.html`)
+  public windowOpen = async () => {
+
+    if (app.isPackaged) {
+      this.window.loadURL(`file://${__dirname}/../index.html`)
+      this.sql = await new Sql()
+      await this.sql.initSqlLite()
+    }
     else {
+      this.sql = await new Sql()
+      await this.sql.initSqlLite()
       this.window.loadURL('http://localhost:3000')
       this.window.webContents.openDevTools()
         require('electron-reload')(__dirname, {
