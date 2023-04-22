@@ -1,8 +1,6 @@
 import { SocketServer } from './socket/socket';
 import * as portfinder from 'portfinder';
 import { Nat } from '../nat';
-import { Sql } from '../sql/sqlLite';
-
 
 const publicIp = require('public-ip')
 const jwt = require('jsonwebtoken')
