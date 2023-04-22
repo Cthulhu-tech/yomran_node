@@ -1,9 +1,16 @@
-import { crateChatType, notificationType } from './src/interface/interface'
-import { app, BrowserWindow, ipcMain } from 'electron'
-import * as path from 'path'
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+} from 'electron';
+import * as path from 'path';
 
-import { Chat } from './src/chat/chat'
-import { Message } from './src/message'
+import { Chat } from './src/chat/chat';
+import {
+  crateChatType,
+  notificationType,
+} from './src/interface/interface';
+import { Message } from './src/message';
 
 export class Window {
   private window: BrowserWindow
