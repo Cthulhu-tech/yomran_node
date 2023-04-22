@@ -13,7 +13,6 @@ export class SocketServer {
         })
 
         io.on("connection", (socket: Socket) => {
-            console.log('connection', socket)
             socket.emit('hello', 'world')
         })
 

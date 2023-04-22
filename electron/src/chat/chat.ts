@@ -1,6 +1,7 @@
 import { SocketServer } from './socket/socket';
 import * as portfinder from 'portfinder';
 import { Nat } from '../nat';
+import { Sql } from '../sql/sqlLite';
 
 
 const publicIp = require('public-ip')
@@ -25,6 +26,7 @@ export class Chat {
     }
     getInfoConnect = async () => {
         const new_port = await this.GetPortFree()
+
         return await this.nat.uPnp(new_port, new_port)
         .then(async () => {
             const ipV4 = await publicIp.v4()
