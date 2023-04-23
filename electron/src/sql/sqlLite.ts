@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 
-import { Chat } from './entity/chat';
 import { Message } from './entity/message';
+import { Chat } from './entity/chat';
 import { User } from './entity/user';
 
 
