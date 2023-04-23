@@ -8,7 +8,7 @@ const CreateMemo = React.memo(Create)
 
 export const Aside = () => {
 
-    return <aside className='h-full shadow-sm border-r flex flex-col w-64 bg-white justify-between items-center'>
+    return <aside className='aside shadow-sm border-r flex flex-col bg-white justify-between items-center'>
         <ChatListMemo/>
         <CreateMemo/>
     </aside>

@@ -12,6 +12,8 @@ export const Layout = () => {
     return <>
         <HeaderMemo/>
         <AsideMemo/>
-        <Outlet />
+        <main className="main overflow-hidden">
+            <Outlet />
+        </main>
     </>
 }

@@ -14,14 +14,14 @@ export const ChatList = () => {
 
     useEffect(() => { getChat() }, [])
 
-    return  <section className='flex flex-col w-64'>
+    return  <section className='flex flex-col w-full'>
         <ul className="flex flex-col py-4 space-y-1">
             <li className="px-5">
                 <div className="flex flex-row items-center h-8">
                     <p className="text-sm font-light tracking-wide text-gray-500">Chat list</p>
                 </div>
             </li>
-            <li className='border-r'>
+            <li>
                 {chat?.map((_chat) =>
                     <NavLink to={"/chat/" + _chat.id} key={_chat.id} className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
                         <span className="inline-flex justify-center items-center ml-4">
