@@ -5,11 +5,13 @@ import {
 } from 'electron';
 import * as path from 'path';
 
-import { Chat } from './src/chat/chat';
 import {
   crateChatType,
+  messageIdType,
   notificationType,
 } from './src/interface/interface';
+
+import { Chat } from './src/chat/chat';
 import { Message } from './src/message';
 import { Sql } from './src/sql/sqlLite';
 
@@ -20,8 +22,8 @@ export class Window {
   constructor() {
     this.message = new Message()
     this.window = new BrowserWindow({
-      width: 800,
-      height: 600,
+      width: 1200,
+      height: 800,
       frame: false,
       minWidth: 800,
       minHeight: 600,
@@ -68,6 +70,12 @@ export class Window {
     ipcMain.on('new_message', (event, { message, chat }: notificationType) => !this.window.isFocused() && this.message.newMessageAlarm({ message, chat }))
 
     ipcMain.handle('get_all_chat_info', async () => await this.sql.getChatEntity().find())
+    ipcMain.handle('get_all_message_in_chat', async (event, { id }: messageIdType) => await this.sql.getMessageEntity().find({
+      relations: { chat: true, sender: true },
+      where: { chat: { id } },
+    }))
+    ipcMain.handle('delete_chat_by_id', async (event, { id }: messageIdType) => await this.sql.getChatEntity().delete({ id }))
+
     ipcMain.handle('create_chat', async (event, { chat_name, password }: crateChatType) => await new Chat(chat_name, password).getInfoConnect())
   }
 }
