@@ -64,8 +64,10 @@ export class Window {
     ipcMain.on('close', () => app.quit())
     ipcMain.on('min', () => this.window.minimize())
     ipcMain.on('max', () => this.window.isMaximized() ? this.window.unmaximize() : this.window.maximize())
+
     ipcMain.on('new_message', (event, { message, chat }: notificationType) => !this.window.isFocused() && this.message.newMessageAlarm({ message, chat }))
 
+    ipcMain.handle('get_all_chat_info', async () => await this.sql.getChatEntity().find())
     ipcMain.handle('create_chat', async (event, { chat_name, password }: crateChatType) => await new Chat(chat_name, password).getInfoConnect())
   }
 }
