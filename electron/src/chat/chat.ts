@@ -1,5 +1,6 @@
 import { SocketServer } from './socket/socket';
 import * as portfinder from 'portfinder';
+import { Sql } from '../sql/sqlLite';
 import { Nat } from '../nat';
 
 const publicIp = require('public-ip')
@@ -29,14 +30,23 @@ export class Chat {
         .then(async () => {
             const ipV4 = await publicIp.v4()
 
+            const chat_entity = await new Sql().getChatEntity()
+            
+            const create_new_chat = await chat_entity.create({
+                name: this.chat_name
+            })
+
+            await chat_entity.save(create_new_chat)
+
             await this.socketPortCreate(new_port)
 
             return await jwt.sign({ 
                 ipV4,
                 port: new_port,
+                chat_id: create_new_chat.id,
                 chat_name: this.chat_name,
                 password: this.password 
-            }, this.password) as string
+            }, this.password + '_secret') as string
         })
         .catch(() => {
             return 'error'
