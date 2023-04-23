@@ -16,7 +16,7 @@ export const Header = () => {
 
     const [fullscreen, setFullscreen] = useState(false)
     
-    return <header className="header">
+    return <header className="header shadow-sm">
         <div className="header__drag">
             
         </div>
