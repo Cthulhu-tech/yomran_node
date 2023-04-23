@@ -11,11 +11,11 @@ import { Message } from './message';
 @Entity("chat")
 export class Chat extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number
+    id: number
 
     @Column()
-    name?: string
+    name: string
 
     @OneToMany(type => Message, message => message.sender)
-    messages?: Message[]
+    messages: Message[]
 }

@@ -14,8 +14,11 @@ export class User extends BaseEntity {
     id!: number
 
     @Column()
-    login?: string
+    login: string
 
-    @OneToMany(type => Message, message => message.sender)
-    messages?: Message[]
+    @Column({type: 'boolean', default: false})
+    creater: boolean
+
+    @OneToMany(type => Message, message => message.sender, { nullable: true })
+    messages: Message[]
 }

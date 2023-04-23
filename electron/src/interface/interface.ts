@@ -7,3 +7,7 @@ export type crateChatType = {
     chat_name: string
     password: string
 }
+
+export type messageIdType = {
+    id: number
+}

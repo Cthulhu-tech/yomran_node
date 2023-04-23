@@ -1,6 +1,7 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -15,13 +16,16 @@ export class Message extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number
 
-    @ManyToOne(type => User)
+    @ManyToOne(type => User, { nullable: true })
     @JoinColumn()
-    sender?: User
+    sender: User
 
-    @ManyToOne(type => Chat)
+    @ManyToOne(type => Chat, { nullable: true })
     @JoinColumn()
-    chat?: Chat
+    chat: Chat
+
+    @CreateDateColumn()
+    create_time: Date;
 
     @Column()
     text?: string
