@@ -1,25 +1,22 @@
-import { JWTdecode } from '../../../../../electron/src/chat/type'
-import { ElectronWindow } from '../../../../interface/electron'
+import { setButtonPopup, setOpenPopup } from '../../../../redux/store/open'
 import { useTranslation } from "react-i18next"
-import { io } from 'socket.io-client'
-
-const jwt_decode = require('jwt-decode')
-
-declare const window: ElectronWindow
+import { useDispatch } from 'react-redux'
 
 export const Create = () => {
 
     const { t } = useTranslation()
+    const dispatch = useDispatch()
 
-    const create = async () => {
-        const data = await window.api.create_chat({chat_name: 'chat', password: '123'})
-        const decodedJWT: JWTdecode = jwt_decode(data)
-
-        const socket = io(decodedJWT.ipV4 + ':' + decodedJWT.port)
+    const open = () => {
+        dispatch(setOpenPopup(true))
+        dispatch(setButtonPopup({
+            first_btn: 'create_room',
+            last_btn: 'cancel',
+        }))
     }
 
-    return  <button onClick={create} className="w-72 mb-4 mt-4 relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-        <span className="w-full relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+    return  <button onClick={open} className="w-56 mb-4 mt-4 inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 transition rounded-lg group bg-indigo-200 hover:bg-indigo-500">
+        <span className="w-full relative px-5 py-2.5 transition-all ease-in duration-75 rounded-md hover:text-slate-50">
             { t('create') }
         </span>
     </button>
