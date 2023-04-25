@@ -1,4 +1,4 @@
 export type CreateChatType = {
-    passsword: string
+    password: string
     name: string
 }
