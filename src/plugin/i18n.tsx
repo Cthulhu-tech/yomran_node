@@ -9,12 +9,20 @@ export const _i18n = i18n
         translation: {
           "chat_list_name": "Chat save list",
           "create": 'Create conference',
+          "create_room": "Create",
+          "cancel": "Cancel",
+          "room_name": "Room name",
+          "room_password": "Password in room"
         }
       },
       ru: {
         translation: {
           "chat_list_name": "Список сохранённых чатов",
           "create": 'создать конференцию',
+          "create_room": "создать",
+          "cancel": "отмена",
+          "room_name": "Название комнаты",
+          "room_password": "Пароль от комнаты"
         }
       }
     },
