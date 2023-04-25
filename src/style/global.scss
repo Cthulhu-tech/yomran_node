@@ -12,13 +12,15 @@
     display: grid; 
     grid-auto-columns: 1fr; 
     grid-template-columns: minmax(200px, 300px) 1.5fr 1fr 1fr; 
-    grid-template-rows: 40px 1fr 1.8fr; 
+    grid-template-rows: 40px 50px 1fr 1.8fr; 
     gap: 0px 0px; 
     grid-template-areas: 
       "header header header header"
+      "menu menu menu menu"
       "aside main main main"
       "aside main main main"; 
-  }
-  .main { grid-area: main; }
-  .aside { grid-area: aside; }
-  .header { grid-area: header; }
+}
+.main { grid-area: main; }
+.aside { grid-area: aside; }
+.header { grid-area: header; }
+.menu { grid-area: menu; }
