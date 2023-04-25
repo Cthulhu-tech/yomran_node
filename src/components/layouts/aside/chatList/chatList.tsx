@@ -33,15 +33,23 @@ export const ChatList = () => {
             </li>
             <li>
                 {chat?.map((_chat) =>
-                    <div key={_chat.id} className="flex items-center relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6">
-                    <NavLink to={"/chat/" + _chat.id} className='w-full' >
+                <NavLink 
+                    to={"/chat/" + _chat.id} 
+                    key={_chat.id}
+                    className={(props) => props.isActive ?
+                        "relative flex flex-row items-center h-11 focus:outline-none bg-gray-50 text-gray-800 border-l-4 border-indigo-500 pr-6" :
+                        "relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 pr-6"}
+                >
+                    <div className='flex justify-around w-full'>
+
                         <span className="inline-flex justify-center items-center ml-4"></span>
-                        <span className="ml-2 text-sm tracking-wide truncate">{_chat?.name}</span>
-                    </NavLink>
+                        <span className="ml-2 text-sm tracking-wide truncate w-full">{_chat?.name}</span>
+
                         <div onClick={() => deleteChat(_chat.id)}>
                             <Trash  width={18} height={18}/>
                         </div>
-                    </div>                    
+                    </div>
+                </NavLink>                  
                 )}
             </li>
         </ul>
