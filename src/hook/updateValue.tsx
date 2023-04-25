@@ -1,12 +1,15 @@
 import { ChangeEvent, useEffect, useState } from "react"
 
-export const UpdateValueHook = <T,>(defaultValue: T) => {
+export const UpdateValueHook = <T,>(defaultValue: T, validation: (data: T) => T) => {
 
     const [state, setState] = useState<T>(defaultValue)
+    const [error, setError] = useState<T>()
 
     const callback = (event: ChangeEvent<HTMLInputElement>) => setState({...state, [event.target.name]: event.target.value})
 
-    useEffect(() => {}, [state])
+    useEffect(() => {
+        setError(validation(state))
+    }, [state])
 
-    return { state, callback, setState }
+    return { state, callback, error, setState }
 }
