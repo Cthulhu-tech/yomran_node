@@ -13,8 +13,7 @@ import { Popup } from '../../popup/popup'
 import { CreateChatType } from '../type'
 import jwt_decode from "jwt-decode"
 
-import React, { useCallback, useState } from 'react'
-import { setUserLoginData } from '../../../../redux/store/user'
+import React, { useCallback } from 'react'
 
 declare const window: ElectronWindow
 
@@ -25,18 +24,16 @@ export const Create = () => {
     const { t } = useTranslation()
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [login, setLogin] = useState('')
 
-    const create = () => {
+    const create = useCallback(() => {
         dispatch(setOpenPopup(true))
         dispatch(setButtonPopup({
             first_btn: 'create_room',
             last_btn: 'cancel',
         }))
-    }
+    }, [])
 
     const popupStore = useSelector<IStore, PopupDefault<boolean>>((store) => store.PopupStore)
-    const loginUpdate = (event: React.ChangeEvent<HTMLInputElement>) => setLogin(event.target.value)
 
     const { state, callback, error } = UpdateValueHook<CreateChatType>({
         password: '',
@@ -49,20 +46,16 @@ export const Create = () => {
         const decodedJWT: JWTdecode = jwt_decode(data)
 
         dispatch(setDecodeSocketIO(decodedJWT))
-        dispatch(setUserLoginData(login))
 
         navigate('socket')
-     }, [state, login])
+     }, [state])
 
     return  <>
     {(popupStore.open && popupStore.first_btn === 'create_room') && 
-    <PopupMemo callback={_create}>
+    <PopupMemo callback={_create} error={error}>
         <div className='w-full'>
-            <InputComponent placeholder='login' name="login" type="text" value={login} change={loginUpdate}/>
-            <InputComponent placeholder='room_name' name="name" type="text" value={state.name} change={callback}/>
-            {error?.name && state.name !== error?.name && <span className='text-xs text-rose-600'>{error?.name}</span>}
-            <InputComponent placeholder='room_password' name="password" type="password" value={state.password} change={callback}/>
-            {error?.password && state.password !== error?.password && <span className='text-xs text-rose-600'>{error?.password}</span>}
+            <InputComponent error={error.name} placeholder='room_name' name="name" type="text" value={state.name} change={callback}/>
+            <InputComponent error={error.password} placeholder='room_password' name="password" type="password" value={state.password} change={callback}/>
         </div>
     </PopupMemo>}
     <button onClick={create} className="w-56 mb-4 mt-4 inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 transition rounded-lg group bg-indigo-200 hover:bg-indigo-500">
