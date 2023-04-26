@@ -1,7 +1,7 @@
-import { SocketServer } from './socket/socket';
-import * as portfinder from 'portfinder';
-import { Sql } from '../sql/sqlLite';
-import { Nat } from '../nat';
+import { SocketServer } from './socket/socket'
+import * as portfinder from 'portfinder'
+import { Sql } from '../sql/sqlLite'
+import { Nat } from '../nat'
 
 const publicIp = require('public-ip')
 const jwt = require('jsonwebtoken')

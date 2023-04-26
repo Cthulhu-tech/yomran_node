@@ -3,4 +3,5 @@ export type JWTdecode = {
     port: string
     chat_name: string
     password: string
+    chat_id: number
 }
