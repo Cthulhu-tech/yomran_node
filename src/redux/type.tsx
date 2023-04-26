@@ -15,7 +15,8 @@ export interface IStore {
 
 export interface PopupDefault<T = any> extends PopupButtonType {
     open: boolean
-    callback: (() => Promise<T>) | null,
+    callback: (() => Promise<T>) | null
+    submit: boolean
 }
 
 export type PopupButtonType = {

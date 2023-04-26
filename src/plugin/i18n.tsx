@@ -20,7 +20,8 @@ export const _i18n = i18n
           "login": "Your login",
           "next": "Next",
           'Minimum length 3 character.': 'Minimum length 3 character.',
-          'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter': 'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter'
+          'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter': 'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter',
+          "This is a required field": "This is a required field"
         }
       },
       ru: {
@@ -38,7 +39,8 @@ export const _i18n = i18n
           "login": "Ваш логин",
           "next": "Продолжить",
           'Minimum length 3 character.': 'Минимальная длина 3 символа',
-          'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter': 'Пароль длиной от 6 до 20 символов, содержащий как минимум одну цифру, одну заглавную и одну строчную букву'
+          'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter': 'Пароль длиной от 6 до 20 символов, содержащий как минимум одну цифру, одну заглавную и одну строчную букву',
+          "This is a required field": 'Это обязательное поле'
         }
       }
     },
