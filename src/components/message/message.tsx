@@ -18,7 +18,7 @@ export const MessageComponent = ({ socket }: socketTypeMessage) => {
     const messageSend = useCallback(() => {
         socket.emit('message:post', { 
             message: message,
-            login: user.user?.login || '',
+            login: user.user?.login,
             chat: jwt.decode?.chat_id,
             chat_name: jwt.decode?.chat_name,
         })
