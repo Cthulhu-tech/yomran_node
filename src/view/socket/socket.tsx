@@ -17,8 +17,6 @@ import { setMessageDataArray, setMessageData } from "../../redux/store/message"
 import { SocketIoChat } from "../../components/chatSocket/chatSocket"
 import { setUserData } from "../../redux/store/user"
 
-const chat = React.memo(SocketIoChat)
-
 export const Socket = () => {
 
     const dispatch = useDispatch()
@@ -36,7 +34,7 @@ export const Socket = () => {
         socket.emit('user:post', user.user?.login)
         socket.emit('message:get', { chat: jwt.decode?.chat_id, chat_name: jwt.decode?.chat_name })
 
-        socket.on('user:create', (user: User) => {
+        socket.on('user:create', (user: User) => { 
             console.log(user)
         })
 
@@ -45,12 +43,10 @@ export const Socket = () => {
         })
 
         socket.on('message:create', (message: Message) => {
-            console.log(message, 'message')
             dispatch(setMessageData(message))
         })
 
         socket.on('user:get-you', (user: User) => {
-            console.log(user, 'you')
             dispatch(setUserData(user))
         })
 
