@@ -18,9 +18,47 @@
       "header header header header"
       "menu menu menu menu"
       "aside main main main"
-      "aside main main main"; 
+      "aside main main main";
 }
+
+.start-socket {
+    display: grid; 
+    grid-auto-columns: 1fr; 
+    grid-template-columns: minmax(200px, 300px) 1.5fr 1fr 1fr; 
+    grid-template-rows: 40px 50px 1fr 1.8fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "header header header header"
+      "menu menu menu menu"
+      "main main main main"
+      "main main main main";
+}
+
 .main { grid-area: main; }
 .aside { grid-area: aside; }
 .header { grid-area: header; }
 .menu { grid-area: menu; }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+*::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+*::-webkit-scrollbar {
+	width: 8px;
+	background-color: #F5F5F5;
+}
+
+*::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,.3);
+	background-color: #b5b5b5;
+}
+
