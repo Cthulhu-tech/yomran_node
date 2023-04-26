@@ -29,9 +29,9 @@ export const Popup = <T,>({ children, callback }: PopupType<T>): JSX.Element => 
     }, [callback])
 
     return <>
-        <div className="w-full h-full absolute z-10 bg-slate-50 opacity-75">
+        <div className="w-full h-full absolute z-10 bg-slate-50 opacity-75 top-0 left-0">
         </div>
-        <section className="w-full h-full absolute flex content-center justify-center items-center z-10">
+        <section className="w-full h-full absolute flex content-center justify-center items-center z-10 top-0 left-0">
             <div className="max-w-sm rounded overflow-hidden shadow-lg w-96 h-80 absolute bg-slate-100">
                 <article className="px-6 py-4 flex h-full justify-between items-center absolute content-center flex-col w-full">
                     { children }
