@@ -24,7 +24,9 @@ export class SocketServer {
         io.on("connection", (socket: Socket) => {
             socket.on('message:get', ({ chat, chat_name }: MessageSocketType) => this.getMessageInChat(chat, chat_name, socket))
             socket.on('user:post', (user: string) => this.saveUser(user, socket))
-            socket.on('message:post', ({ message, login, chat, chat_name }: MessageSocketType) => this.saveMessage({ message, login, chat, chat_name }, socket))
+            socket.on('message:post', ({ message, login, chat, chat_name }: MessageSocketType) => {
+                this.saveMessage({ message, login, chat, chat_name }, socket)
+            })
             socket.on('disconnect:post', (user: string) => this.userDisconnect(user, socket))
         })
 
@@ -56,7 +58,6 @@ export class SocketServer {
     }
     private saveUser = async (user: string, socket: Socket) => {
         const userFind = await this.getUserByName(user, socket)
-
         if(userFind) {
             await socket.emit('user:get-you', userFind)
             await this.io.emit('user:create', userFind)
@@ -74,8 +75,8 @@ export class SocketServer {
 
         await userEntity.save(createUser)
         
-        await socket.emit('user:get-you', userFind)
-        await this.io.emit('user:create', userFind)
+        await socket.emit('user:get-you', createUser)
+        await this.io.emit('user:create', createUser)
     }
     private saveMessage = async ({ message, login, chat, chat_name }: MessageSocketType, socket: Socket) => {
         const messageEntity = await this.sql.getMessageEntity()
