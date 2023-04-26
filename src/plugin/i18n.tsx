@@ -12,7 +12,8 @@ export const _i18n = i18n
           "create_room": "Create",
           "cancel": "Cancel",
           "room_name": "Room name",
-          "room_password": "Password in room"
+          "room_password": "Password in room",
+          "send": "Send"
         }
       },
       ru: {
@@ -22,7 +23,8 @@ export const _i18n = i18n
           "create_room": "создать",
           "cancel": "отмена",
           "room_name": "Название комнаты",
-          "room_password": "Пароль от комнаты"
+          "room_password": "Пароль от комнаты",
+          "send": "Отправить"
         }
       }
     },
