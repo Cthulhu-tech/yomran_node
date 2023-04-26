@@ -16,9 +16,15 @@ export class User extends BaseEntity {
     @Column()
     login: string
 
-    @Column({type: 'boolean', default: false})
+    @Column({ nullable: true })
+    socket: string
+
+    @Column({ nullable: true })
+    ip: string
+
+    @Column({ type: 'boolean', default: false })
     creater: boolean
 
-    @OneToMany(type => Message, message => message.sender, { nullable: true })
+    @OneToMany(type => Message, message => message.sender, { nullable: true, onDelete: 'CASCADE' })
     messages: Message[]
 }

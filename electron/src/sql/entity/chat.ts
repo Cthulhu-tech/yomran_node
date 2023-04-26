@@ -16,6 +16,6 @@ export class Chat extends BaseEntity {
     @Column()
     name: string
 
-    @OneToMany(type => Message, message => message.sender)
+    @OneToMany(type => Message, message => message.sender, { onDelete: 'CASCADE' })
     messages: Message[]
 }
