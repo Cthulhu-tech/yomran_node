@@ -5,5 +5,6 @@ export type InputTypeComponent = {
     name: string
     value: string
     placeholder: string
+    error?: string | null
     change: (event: ChangeEvent<HTMLInputElement>) => void
 }
