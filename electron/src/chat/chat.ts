@@ -28,15 +28,27 @@ export class Chat {
 
         return await this.nat.uPnp(new_port, new_port)
         .then(async () => {
+
+            const sql = new Sql()
+
             const ipV4 = await publicIp.v4()
 
-            const chat_entity = await new Sql().getChatEntity()
+            const chat_entity = await sql.getChatEntity()
             
             const create_new_chat = await chat_entity.create({
                 name: this.chat_name
             })
 
             await chat_entity.save(create_new_chat)
+
+            const user = await sql.getUser()
+            const userEntity = await sql.getUserEntity()
+
+            if(!user) return
+
+            user.ip = await ipV4
+
+            await userEntity.save(user)
 
             await this.socketPortCreate(new_port)
 

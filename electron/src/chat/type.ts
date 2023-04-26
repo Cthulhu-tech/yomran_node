@@ -5,3 +5,7 @@ export type JWTdecode = {
     password: string
     chat_id: number
 }
+
+export type UserCreateType = {
+    login: string
+}

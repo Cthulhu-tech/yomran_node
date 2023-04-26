@@ -65,12 +65,11 @@ export class SocketServer {
         }
 
         const userEntity = await this.sql.getUserEntity()
-
         const createUser = await userEntity.create({
             login: user,
             creater: false,
             socket: socket.id,
-            ip: socket.handshake.address
+            ip: socket.handshake.address.replace(/([^0-9.]){0,}/, '')
         })
 
         await userEntity.save(createUser)
@@ -101,7 +100,7 @@ export class SocketServer {
 
         const user = await userEntity.findOneBy({
             login,
-            ip: socket.handshake.address
+            ip: socket.handshake.address.replace(/([^0-9.]){0,}/, '')
         })
         
         return user
