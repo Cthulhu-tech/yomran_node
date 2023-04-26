@@ -1,0 +1,16 @@
+.socket {
+    display: grid; 
+    grid-auto-columns: 1fr; 
+    grid-template-columns: repeat(3, 1fr) 1.5fr; 
+    grid-template-rows: repeat(4, 1fr) 60px; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      ". . . socket-chat"
+      ". . . socket-chat"
+      ". . . socket-chat"
+      ". . . socket-chat"
+      ". . . socket-message-send";
+}
+
+.socket-chat { grid-area: socket-chat; }
+.socket-message-send { grid-area: socket-message-send; }
