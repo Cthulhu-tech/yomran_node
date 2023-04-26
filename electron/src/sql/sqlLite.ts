@@ -1,9 +1,10 @@
-import { DataSource } from 'typeorm';
+import { UserCreateType } from '../chat/type'
 
-import { Message } from './entity/message';
-import { Chat } from './entity/chat';
-import { User } from './entity/user';
+import { Message } from './entity/message'
+import { Chat } from './entity/chat'
+import { User } from './entity/user'
 
+import { DataSource } from 'typeorm'
 
 export class Sql {
   private static instance: Sql = new Sql()
@@ -18,6 +19,25 @@ export class Sql {
       logging: true,
     })
     Sql.instance = this
+  }
+  createUser = ({ login }: UserCreateType) => {
+    const userEntity = this.getUserEntity()
+
+    const create = userEntity.create({
+      login,
+      creater: true,
+    })
+
+    return userEntity.save(create)
+  }
+  getUser = () => {
+    const userEntity = this.getUserEntity()
+
+    return userEntity.findOne({
+      where: {
+        creater: true,
+      }
+    })
   }
   getUserEntity = () => {
     return User

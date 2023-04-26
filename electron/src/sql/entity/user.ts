@@ -4,9 +4,9 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-} from 'typeorm';
+} from 'typeorm'
 
-import { Message } from './message';
+import { Message } from './message'
 
 @Entity("user")
 export class User extends BaseEntity {
