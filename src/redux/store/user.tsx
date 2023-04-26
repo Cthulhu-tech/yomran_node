@@ -1,4 +1,3 @@
-import { JWTdecode } from "../../../electron/src/chat/type"
 import { IAction, UserDefault, UserType } from "../type"
 
 const defaultState: UserDefault = {
@@ -22,3 +21,8 @@ export const UserStore = (state = defaultState, action: IAction<string, UserType
 }
 
 export const setUserData = (payload: UserType) => ({ type: setUserSocket, payload })
+export const setUserLoginData = (payload: string) => ({ type: setUserSocket, 
+    payload: {
+        login: payload
+    } 
+})
