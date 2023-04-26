@@ -9,11 +9,15 @@ export const _i18n = i18n
         translation: {
           "chat_list_name": "Chat save list",
           "create": 'Create conference',
-          "create_room": "Create",
+          "create_room": "Create room",
           "cancel": "Cancel",
           "room_name": "Room name",
           "room_password": "Password in room",
-          "send": "Send"
+          "send": "Send",
+          "open": "Connect to the room",
+          "connect": "Connect",
+          "token": "Connection token",
+          "login": "Your login",
         }
       },
       ru: {
@@ -24,7 +28,11 @@ export const _i18n = i18n
           "cancel": "отмена",
           "room_name": "Название комнаты",
           "room_password": "Пароль от комнаты",
-          "send": "Отправить"
+          "send": "Отправить",
+          "open": "Подключиться к комнате",
+          "connect": "вход",
+          "token": "Токен подключения",
+          "login": "Ваш логин",
         }
       }
     },

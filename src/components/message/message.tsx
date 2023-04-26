@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useState } from "react"
-import { IStore, SocketDefault } from "../../redux/type"
+import { IStore, SocketDefault, UserDefault } from "../../redux/type"
 import { InputComponent } from "../input/input"
 import { socketTypeMessage } from "./type"
 import { useSelector } from "react-redux"
@@ -11,13 +11,14 @@ export const MessageComponent = ({ socket }: socketTypeMessage) => {
     const [message, setMessage] = useState<string>('')
 
     const jwt = useSelector<IStore, SocketDefault>((store) => store.SocketStore)
+    const user = useSelector<IStore, UserDefault>((store) => store.UserStore)
 
     const callback = (event: ChangeEvent<HTMLInputElement>) => setMessage(event.target.value)
 
     const messageSend = useCallback(() => {
         socket.emit('message:post', { 
             message: message,
-            login: jwt.user || 'login',
+            login: user.user?.login || '',
             chat: jwt.decode?.chat_id,
             chat_name: jwt.decode?.chat_name,
         })

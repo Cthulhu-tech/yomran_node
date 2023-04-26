@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react"
-import { SocketDefault } from "../../redux/type"
+import { SocketDefault, UserDefault } from "../../redux/type"
 import { useSelector } from "react-redux"
 import { IStore } from "../../redux/type"
 
@@ -23,16 +23,17 @@ export const Socket = () => {
 
     const dispatch = useDispatch()
     const jwt = useSelector<IStore, SocketDefault>((store) => store.SocketStore)
+    const user = useSelector<IStore, UserDefault>((store) => store.UserStore)
 
     const socket = useMemo(() => jwt.decode && io(jwt.decode.ipV4 + ':' + jwt.decode.port), [jwt.decode])
 
     useEffect(() => {
 
-        if(!socket) return
+        if(!socket || !user.user?.login) return
         
         socket.connect()
 
-        socket.emit('user:post', 'login')
+        socket.emit('user:post', user.user?.login)
         socket.emit('message:get', { chat: jwt.decode?.chat_id, chat_name: jwt.decode?.chat_name })
 
         socket.on('user:create', (user: User) => {
@@ -44,10 +45,12 @@ export const Socket = () => {
         })
 
         socket.on('message:create', (message: Message) => {
+            console.log(message, 'message')
             dispatch(setMessageData(message))
         })
 
         socket.on('user:get-you', (user: User) => {
+            console.log(user, 'you')
             dispatch(setUserData(user))
         })
 
@@ -56,7 +59,9 @@ export const Socket = () => {
         })
 
         return () => {
-            socket.emit('disconnect:post', 'login')
+            if(!socket || !user.user?.login) return
+
+            socket.emit('disconnect:post', user.user?.login)
         }
     },[socket])
 
