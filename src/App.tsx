@@ -1,5 +1,6 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Layout } from './components/layouts/layout'
+import { Socket } from "./view/socket/socket"
 import { Chat } from "./view/chat/chat"
 
 import './style/global.scss'
@@ -15,12 +16,14 @@ export const App = () => {
       children: [{
         path: 'chat/:id',
         element:  <Chat/>
+      },
+      {
+        path: 'socket',
+        element:  <Socket/>
       }]
     }
   ])
 
-  return <div className='flex flex-col h-screen start'>
-     <RouterProvider router={router} />
-  </div>
+  return  <RouterProvider router={router} />
 }
 
