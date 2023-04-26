@@ -18,6 +18,9 @@ export const _i18n = i18n
           "connect": "Connect",
           "token": "Connection token",
           "login": "Your login",
+          "next": "Next",
+          'Minimum length 3 character.': 'Minimum length 3 character.',
+          'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter': 'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter'
         }
       },
       ru: {
@@ -33,6 +36,9 @@ export const _i18n = i18n
           "connect": "вход",
           "token": "Токен подключения",
           "login": "Ваш логин",
+          "next": "Продолжить",
+          'Minimum length 3 character.': 'Минимальная длина 3 символа',
+          'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter': 'Пароль длиной от 6 до 20 символов, содержащий как минимум одну цифру, одну заглавную и одну строчную букву'
         }
       }
     },
