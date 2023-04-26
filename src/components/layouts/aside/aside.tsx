@@ -6,17 +6,19 @@ import { Popup } from '../popup/popup'
 
 import './aside.scss'
 
-import { io } from 'socket.io-client'
-
 import React, { useCallback } from 'react'
 
+import { setDecodeSocketIO } from '../../../redux/store/socket'
+import { JWTdecode } from '../../../../electron/src/chat/type'
 import { UpdateValueHook } from '../../../hook/updateValue'
 import { InputComponent } from '../../input/input'
-import { useSelector } from "react-redux"
-import { CreateChatType } from './type'
 import { validationCreate } from './valid'
+import { useSelector } from "react-redux"
+import { useDispatch } from 'react-redux'
+import { CreateChatType } from './type'
 
-const jwt_decode = require('jwt-decode')
+import { useNavigate } from 'react-router-dom'
+import jwt_decode from "jwt-decode"
 
 declare const window: ElectronWindow
 
@@ -26,6 +28,9 @@ const PopupMemo = React.memo(Popup)
 
 export const Aside = () => {
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const popupStore = useSelector<IStore, PopupDefault<boolean>>((store) => store.PopupStore)
 
     const { state, callback, error } = UpdateValueHook<CreateChatType>({
@@ -33,7 +38,15 @@ export const Aside = () => {
         name:'',
     }, validationCreate)
 
-    const create = useCallback( async () => { }, [state.name, state.password])
+    const create = useCallback( async () => {
+        const data = await window.api.create_chat({chat_name: state.name, password: state.password})
+
+        const decodedJWT: JWTdecode = jwt_decode(data)
+
+        dispatch(setDecodeSocketIO(decodedJWT))
+
+        navigate('socket')
+     }, [state])
     
     return <>
         {popupStore.open && 

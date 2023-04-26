@@ -1,15 +1,17 @@
 import { Chat } from '../../../../../electron/src/sql/entity/chat'
 import { ElectronWindow } from '../../../../interface/electron'
+import { NavLink, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useEffect, useState } from 'react'
 
 import { Trash } from '../../../icon/trash'
-import { NavLink } from "react-router-dom"
 
 declare const window: ElectronWindow
 
 export const ChatList = () => {
 
+
+    const navigate = useNavigate()
     const [chat, setChat] = useState<Chat[]>()
 
     const { t } = useTranslation()
@@ -20,6 +22,7 @@ export const ChatList = () => {
         await window.api.delete_chat_by_id({id: Number(id)})
             .then(() => {
                 setChat((chatData) => chatData?.filter((_chat) => _chat.id != id))
+                navigate('/')
             })
 
     useEffect(() => { getChat() }, [])
