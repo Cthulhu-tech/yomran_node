@@ -5,7 +5,7 @@ export const InputComponent = ({ type, name, value, change, placeholder }: Input
 
     const { t } = useTranslation()
 
-    return  <div className='pt-2 pb-2'>
+    return  <div className='pt-2 pb-2 flex flex-col justify-center items-center'>
         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{ t(placeholder) }</label>
         <input
             type={type}
