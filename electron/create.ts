@@ -2,18 +2,20 @@ import {
   app,
   BrowserWindow,
   ipcMain,
-} from 'electron';
-import * as path from 'path';
+} from 'electron'
+
+import * as path from 'path'
 
 import {
   crateChatType,
   messageIdType,
   notificationType,
-} from './src/interface/interface';
+} from './src/interface/interface'
 
-import { Chat } from './src/chat/chat';
-import { Message } from './src/message';
-import { Sql } from './src/sql/sqlLite';
+import { UserCreateType } from './src/chat/type'
+import { Message } from './src/message'
+import { Sql } from './src/sql/sqlLite'
+import { Chat } from './src/chat/chat'
 
 export class Window {
   private window: BrowserWindow
@@ -66,6 +68,9 @@ export class Window {
     ipcMain.on('close', () => app.quit())
     ipcMain.on('min', () => this.window.minimize())
     ipcMain.on('max', () => this.window.isMaximized() ? this.window.unmaximize() : this.window.maximize())
+
+    ipcMain.handle('create_user_info', async (event, { login }: UserCreateType) => await this.sql.createUser({ login }))
+    ipcMain.handle('get_user_info', async () => await this.sql.getUser())
 
     ipcMain.on('new_message', (event, { message, chat }: notificationType) => !this.window.isFocused() && this.message.newMessageAlarm({ message, chat }))
 
