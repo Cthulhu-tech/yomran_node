@@ -1,4 +1,5 @@
 import { DefaultEventsMap } from 'socket.io/dist/typed-events'
+import { Message } from '../../sql/entity/message'
 import { MessageSocketType } from './type'
 import { Server, Socket } from 'socket.io'
 import { Sql } from '../../sql/sqlLite'
@@ -22,8 +23,11 @@ export class SocketServer {
         this.io = io
 
         io.on("connection", (socket: Socket) => {
-            socket.on('message:get', ({ chat, chat_name }: MessageSocketType) => this.getMessageInChat(chat, chat_name, socket))
-            socket.on('user:post', (user: string) => this.saveUser(user, socket))
+
+            socket.on('user-connection', (user: string) => this.userConnection(user, socket))
+
+            socket.on('get-all-message-in-chat', ({ chat, chat_name, last_message }: MessageSocketType) => this.getAllMessageInChat(chat, chat_name, last_message, socket))
+
             socket.on('message:post', ({ message, login, chat, chat_name }: MessageSocketType) => {
                 this.saveMessage({ message, login, chat, chat_name }, socket)
             })
@@ -38,11 +42,14 @@ export class SocketServer {
         await this.io.emit('disconnect:user', user)
         socket.disconnect() 
     }
-    private getMessageInChat = async (chat: number, chat_name: string, socket: Socket) => {
+    private getAllMessageInChat = async (chat: number, chat_name: string, last_message: Message | undefined, socket: Socket) => {
 
         const messageEntity = await this.sql.getMessageEntity()
 
-        const allMessage = await messageEntity.find({
+        let allMessage: Message[]
+        
+        if(last_message)
+        allMessage = await messageEntity.find({
             relations: {
                 sender: true
             },
@@ -50,13 +57,25 @@ export class SocketServer {
                 chat: {
                     id: chat,
                     name: chat_name,
-                }
+                },
+                create_time: last_message?.create_time
             }
         })
-        
+        else
+        allMessage = await messageEntity.find({
+            relations: {
+                sender: true
+            },
+            where: {
+                chat: {
+                    id: chat,
+                    name: chat_name,
+                },
+            }
+        })
         await socket.emit('chat:get', allMessage)
     }
-    private saveUser = async (user: string, socket: Socket) => {
+    private userConnection = async (user: string, socket: Socket) => {
         const userFind = await this.getUserByName(user, socket)
         if(userFind) {
             await socket.emit('user:get-you', userFind)
