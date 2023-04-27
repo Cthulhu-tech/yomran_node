@@ -10,6 +10,7 @@ import {
   crateChatType,
   messageIdType,
   notificationType,
+SaveChat,
 } from './src/interface/interface'
 
 import { UserCreateType } from './src/chat/type'
@@ -80,7 +81,51 @@ export class Window {
       where: { chat: { id } },
     }))
     ipcMain.handle('delete_chat_by_id', async (event, { id }: messageIdType) => await this.sql.getChatEntity().delete({ id }))
+    ipcMain.handle('create_chat_by_name', async (event, { chat_name }: crateChatType) => {
+      const find = await this.sql.getChatEntity().findOneBy({
+        name: chat_name
+      })
+      if(find) return;
 
+      const createChat = await this.sql.getChatEntity().create({
+        name: chat_name
+      })
+      await this.sql.getChatEntity().save(createChat)
+    })
+    ipcMain.handle('get_last_message_in_chat', async (event, { chat_name }: crateChatType) => {
+      return await this.sql.getMessageEntity().findOne({
+        relations: { chat: true},
+        where: {chat: {
+            name: chat_name,
+          }
+        },
+        order: { id: 'DESC' }
+      })
+    })
+    ipcMain.handle('save_message_in_chat', async (event, { chat_name, message }: SaveChat) => {
+      const chatEntity = await this.sql.getChatEntity()
+
+      const findChat = await chatEntity.findOne({
+        relations: {
+          messages: true,
+        },
+        where: {
+          name: chat_name,
+        },
+      })
+
+      if(findChat) {
+        findChat.messages.push(...message)
+
+        return await chatEntity.save(findChat)
+      }
+      
+      const create = await chatEntity.create({
+        name: chat_name,
+        messages: message,
+      })
+      return await chatEntity.save(create)
+    })
     ipcMain.handle('create_chat', async (event, { chat_name, password }: crateChatType) => await new Chat(chat_name, password).getInfoConnect())
   }
 }
