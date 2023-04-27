@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Layout } from './components/layouts/layout'
-import { Socket } from "./view/socket/socket"
+import { SocketChat } from "./view/socket/socket"
 import { Chat } from "./view/chat/chat"
 
 import './style/global.scss'
@@ -19,7 +19,7 @@ export const App = () => {
       },
       {
         path: 'socket',
-        element:  <Socket/>
+        element:  <SocketChat/>
       }]
     }
   ])

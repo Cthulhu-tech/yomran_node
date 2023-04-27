@@ -1,4 +1,4 @@
-import { crateChatType, messageIdType, notificationType } from '../../electron/src/interface/interface'
+import { crateChatType, messageIdType, notificationType, SaveChat } from '../../electron/src/interface/interface'
 import { Message } from '../../electron/src/sql/entity/message'
 import { UserCreateType } from '../../electron/src/chat/type'
 import { Chat } from '../../electron/src/sql/entity/chat'
@@ -16,5 +16,8 @@ export interface ElectronWindow extends Window {
         delete_chat_by_id: (id: messageIdType) => Promise<Chat[]>
         create_user_info: ({ login }: UserCreateType) => Promise<User>
         get_user_info: () => Promise<User>
+        create_chat_by_name: ({ chat_name }: crateChatType) => void
+        get_last_message_in_chat: ({ chat_name }: crateChatType) => Promise<Message | null>
+        save_message_in_chat: ({ chat_name, message }: SaveChat) => void
     }
 }

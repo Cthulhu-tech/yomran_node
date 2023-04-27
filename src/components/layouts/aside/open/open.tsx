@@ -9,9 +9,12 @@ import { useTranslation } from "react-i18next"
 import { Popup } from '../../popup/popup'
 import jwt_decode from "jwt-decode"
 
+import { ElectronWindow } from '../../../../interface/electron'
 import React, { useCallback, useState } from 'react'
 
 const PopupMemo = React.memo(Popup)
+
+declare const window: ElectronWindow
 
 export const Open = () => {
 
@@ -32,7 +35,10 @@ export const Open = () => {
     const popupStore = useSelector<IStore, PopupDefault<boolean>>((store) => store.PopupStore)
 
     const connect = useCallback( async () => {
+
         const decodedJWT: JWTdecode = jwt_decode(token)
+
+        await window.api.create_chat_by_name({chat_name: decodedJWT.chat_name, password: decodedJWT.password})
 
         dispatch(setDecodeSocketIO(decodedJWT))
 
