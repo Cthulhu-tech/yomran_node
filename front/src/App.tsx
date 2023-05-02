@@ -1,47 +1,49 @@
-import { createBrowserRouter, createHashRouter, Navigate, Outlet, RouterProvider } from "react-router-dom"
+import { createHashRouter, Navigate, Outlet, RouterProvider } from "react-router-dom"
+import { ProtectedRoute } from "./components/auth/protected/protected"
 import { Registration } from "./view/auth/registration/registration"
+import { CheckRefresh } from "./view/auth/refresh/refresh"
 import { Layout } from './components/layouts/layout'
 import { Login } from "./view/auth/login/login"
 import { Auth } from "./view/auth/auth"
 import './style/global.scss'
 import './plugin/i18n'
 
-import { RefreshLoader } from "./components/layouts/loader"
-
 export const App = () => {
 
-  const router = createBrowserRouter([
+  const router = createHashRouter([
     {
       path: '/',
-      loader: RefreshLoader,
-      id: 'refresh',
-      errorElement: <Navigate to='auth'/>,
+      element: <ProtectedRoute>
+        <Layout/>
+      </ProtectedRoute>,
+      loader: CheckRefresh,
+      errorElement: <Navigate to='/auth' replace />,
       children: [
         {
           index: true,
-          element: <Layout/>
+          element: <Outlet/>
         },
+        {
+          path: 'protected',
+          element: <>protected</>
+        }
       ],
     },
     {
-      path: 'auth',
+      path: '/auth',
+      element: <Layout/>,
       children: [
         {
-          element: <Layout/>,
-          children: [
-            {
-              index: true,
-              element: <Auth/>
-            },
-            {
-              path: 'login',
-              element: <Login/>
-            },
-            {
-              path: 'registration',
-              element: <Registration/>
-            }
-          ]
+          index: true,
+          element: <Auth/>
+        },
+        {
+          path: 'login',
+          element: <Login/>
+        },
+        {
+          path: 'registration',
+          element: <Registration/>
         },
       ]
     },
