@@ -1,15 +1,20 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { CreateMessageDto } from './dto/create-message.dto'
 import { UpdateMessageDto } from './dto/update-message.dto'
+import { ChatEntity } from 'src/chats/entities/chat.entity'
 import { MessageEntity } from './entities/message.entity'
 import { InjectRepository } from '@nestjs/typeorm'
+import { JoinRoom } from './type/type'
 import { Repository } from 'typeorm'
+import { Socket } from 'socket.io'
 
 @Injectable()
 export class MessageService {
   constructor(
     @InjectRepository(MessageEntity)
     private messageRepository: Repository<MessageEntity>,
+    @InjectRepository(ChatEntity)
+    private chatRepository: Repository<ChatEntity>,
   ){}
   async create(createMessageDto: CreateMessageDto) {
     if(!createMessageDto.message)
@@ -58,5 +63,23 @@ export class MessageService {
     },{
       delete: true
     })
+  }
+
+  async joinRoom(room_id: string, client: Socket) {
+    const roomId = Number(room_id)
+
+    if(!room_id || isNaN(roomId))
+      throw new HttpException('All fields must be filled', HttpStatus.BAD_REQUEST)
+
+    const findRoom = await this.chatRepository.findOne({
+      where: {
+        id:roomId
+      }
+    })
+
+    if(!findRoom || findRoom.delete)
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+
+    return await client.join(room_id)
   }
 }

@@ -1,11 +1,21 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody } from '@nestjs/websockets'
+import { WebSocketGateway, SubscribeMessage, MessageBody, ConnectedSocket } from '@nestjs/websockets'
 import { CreateMessageDto } from './dto/create-message.dto'
 import { UpdateMessageDto } from './dto/update-message.dto'
 import { MessageService } from './message.service'
+import { JoinRoom } from './type/type'
+import { Socket } from 'socket.io'
 
 @WebSocketGateway()
 export class MessageGateway {
   constructor(private readonly messageService: MessageService) {}
+
+  @SubscribeMessage('joinRoom')
+  joinRoomRoom(
+    @MessageBody() data: JoinRoom,
+    @ConnectedSocket() client: Socket
+  ) {
+    return this.messageService.joinRoom(data.room_id, client)
+  }
 
   @SubscribeMessage('createMessage')
   create(@MessageBody() createMessageDto: CreateMessageDto) {
