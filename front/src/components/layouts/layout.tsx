@@ -13,9 +13,13 @@ export const Layout = () => {
 
     const location = useLocation()
 
-    return <div className={location.pathname !== '/socket' ? 'flex flex-col h-screen start' : 'flex flex-col h-screen start-socket'}>
+    return <div className={
+        (location.pathname !== '/socket' && !location.pathname.includes('auth')) ? 
+        'flex flex-col h-screen start' : 
+        'flex flex-col h-screen start-socket'
+    }>
         <HeaderMemo/>
-        {location.pathname !== '/socket' && <AsideMemo/>}
+        {(location.pathname !== '/socket' && !location.pathname.includes('auth')) && <AsideMemo/>}
         <MenuMemo/>
         <main className="main bg-slate-100 rounded-md overflow-hidden shadow-sm mt-2 mr-2 mb-2 ml-2">
             <Outlet />
