@@ -36,6 +36,6 @@ export const updateLoadingToken = (payload: boolean) => ({
     type: "update_loading_token", 
     payload: {
         access: '',
-        loading: false,
+        loading: payload,
     },
 })
