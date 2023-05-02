@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux"
 import { UserLogin } from "./type"
 import { useEffect } from "react"
 
-
 export const Login = () => {
 
     const { t } = useTranslation()
@@ -19,8 +18,10 @@ export const Login = () => {
     const handlerLogin = handleSubmit((data) => fetchData(data))
 
     useEffect(() => {
-      if(!error && returnData?.access)
+      if(!error && returnData?.access){
         dispatch(updateToken(returnData.access))
+        window.location.replace('/')
+      }
     }, [returnData])
 
     return <section className="flex justify-center content-center w-full h-full">
