@@ -1,5 +1,5 @@
+import { checkToken } from '../utils/token/checkToken'
 import { IStore, TokenType } from '../redux/type'
-import { checkToken } from '../utils/checkToken'
 import { redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
