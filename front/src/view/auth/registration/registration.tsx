@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
 import { UserRegistration } from "./type"
 import { useEffect } from "react"
+
 export const Registration = () => {
 
     const { t } = useTranslation()
@@ -13,13 +14,14 @@ export const Registration = () => {
     const dispatch = useDispatch()
     const { register, handleSubmit, formState: { errors }, } = useForm<UserRegistration>()
 
-    const { fetchData, returnData, error }= useFetch<UserRegistration, TokenType>('users', 'POST')
+    const { fetchData, returnData, error } = useFetch<UserRegistration, TokenType>('users', 'POST')
 
     const handlerLogin = handleSubmit((data) => fetchData(data))
 
     useEffect(() => {
       if(!error && returnData?.access)
         dispatch(updateToken(returnData.access))
+        window.location.replace('/')
     }, [returnData])
 
     return <section className="flex justify-center content-center w-full h-full">
