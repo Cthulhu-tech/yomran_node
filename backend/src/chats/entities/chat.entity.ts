@@ -21,6 +21,11 @@ export class ChatEntity extends BaseEntity {
     })
     name: string
 
+    @Column({
+        length: 255
+    })
+    password: string
+
     @ManyToOne(() => UserEntity, (user) => user)
     chat_creater: UserEntity
 
