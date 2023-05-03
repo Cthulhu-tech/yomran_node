@@ -19,6 +19,7 @@ export class ChatsService {
     const createChat = await this.chatRepository.create({
       name: createChatDto.name,
       chat_creater: createChatDto.user,
+      password: createChatDto.password,
     })
 
     const saveChat = await this.chatRepository.save(createChat)

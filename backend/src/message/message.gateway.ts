@@ -5,34 +5,44 @@ import { MessageService } from './message.service'
 import { JoinRoom } from './type/type'
 import { Socket } from 'socket.io'
 
-@WebSocketGateway()
+import { METHODTS } from '../../methods'
+
+@WebSocketGateway({
+    cors: {
+      origin: true,
+      methods: ["GET", "POST"],
+      credentials: true,
+      transports: ['websocket', 'polling'],
+  },
+  allowEIO3: true
+})
 export class MessageGateway {
   constructor(private readonly messageService: MessageService) {}
 
-  @SubscribeMessage('joinRoom')
+  @SubscribeMessage(METHODTS.JOIN_ROOM)
   joinRoomRoom(
     @MessageBody() data: JoinRoom,
     @ConnectedSocket() client: Socket
   ) {
-    return this.messageService.joinRoom(data.room_id, client)
+    return this.messageService.joinRoom(data, client)
   }
 
-  @SubscribeMessage('createMessage')
+  @SubscribeMessage(METHODTS.CREATE_MESSAGE)
   create(@MessageBody() createMessageDto: CreateMessageDto) {
     return this.messageService.create(createMessageDto)
   }
 
-  @SubscribeMessage('findAllMessage')
+  @SubscribeMessage(METHODTS.FIND_ALL_MESSAGE)
   findAll(@MessageBody() updateMessageDto: UpdateMessageDto) {
     return this.messageService.findAll(+updateMessageDto.chatId)
   }
 
-  @SubscribeMessage('updateMessage')
+  @SubscribeMessage(METHODTS.UPDATE_MESSAGE)
   update(@MessageBody() updateMessageDto: UpdateMessageDto) {
     return this.messageService.update(updateMessageDto)
   }
 
-  @SubscribeMessage('removeMessage')
+  @SubscribeMessage(METHODTS.REMOVE_MESSAGE)
   remove(@MessageBody() updateMessageDto: UpdateMessageDto) {
     return this.messageService.remove(+updateMessageDto.messageId)
   }

@@ -4,9 +4,11 @@ import { UpdateMessageDto } from './dto/update-message.dto'
 import { ChatEntity } from 'src/chats/entities/chat.entity'
 import { MessageEntity } from './entities/message.entity'
 import { InjectRepository } from '@nestjs/typeorm'
-import { JoinRoom } from './type/type'
 import { Repository } from 'typeorm'
 import { Socket } from 'socket.io'
+
+import { METHODTS } from '../../methods'
+import { JoinRoom } from './type/type'
 
 @Injectable()
 export class MessageService {
@@ -65,10 +67,10 @@ export class MessageService {
     })
   }
 
-  async joinRoom(room_id: string, client: Socket) {
-    const roomId = Number(room_id)
+  async joinRoom(data: JoinRoom, client: Socket) {
+    const roomId = Number(data.room_id)
 
-    if(!room_id || isNaN(roomId))
+    if(!data.room_id || !data.user_id || isNaN(roomId))
       throw new HttpException('All fields must be filled', HttpStatus.BAD_REQUEST)
 
     const findRoom = await this.chatRepository.findOne({
@@ -80,6 +82,7 @@ export class MessageService {
     if(!findRoom || findRoom.delete)
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
 
-    return await client.join(room_id)
+    client.join(data.room_id)
+    client.broadcast.to(data.room_id).emit(METHODTS.USER_CONNECTED, data.user_id)
   }
 }
