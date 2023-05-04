@@ -1,5 +1,5 @@
 import { WebSocketGateway, SubscribeMessage, MessageBody, ConnectedSocket } from '@nestjs/websockets'
-import { CreateMessageDto } from './dto/create-message.dto'
+import { CreateMessageDto, SendAnswer, SendIceCandidate, SendOffer } from './dto/create-message.dto'
 import { UpdateMessageDto } from './dto/update-message.dto'
 import { MessageService } from './message.service'
 import { JoinRoom } from './type/type'
@@ -25,6 +25,30 @@ export class MessageGateway {
     @ConnectedSocket() client: Socket
   ) {
     return this.messageService.joinRoom(data, client)
+  }
+
+  @SubscribeMessage(METHODTS.SEND_OFFER)
+  send_offer(
+    @MessageBody() SendOffer: SendOffer,
+    @ConnectedSocket() client: Socket
+  ) {
+    return this.messageService.send_offer(SendOffer, client)
+  }
+
+  @SubscribeMessage(METHODTS.SEND_ANSWER)
+  send_answer(
+    @MessageBody() SendAnswer: SendAnswer,
+    @ConnectedSocket() client: Socket
+  ) {
+    return this.messageService.send_answer(SendAnswer, client)
+  }
+
+  @SubscribeMessage(METHODTS.SEND_ICE_CANDIDATE)
+  send_ice_candidate(
+    @MessageBody() SendIceCandidate: SendIceCandidate,
+    @ConnectedSocket() client: Socket
+  ) {
+    return this.messageService.send_ice_candidate(SendIceCandidate, client)
   }
 
   @SubscribeMessage(METHODTS.CREATE_MESSAGE)
