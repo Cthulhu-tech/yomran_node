@@ -30,6 +30,11 @@ export class MessageService {
     return await this.messageRepository.save(createMessage)
   }
 
+  async disconnect (client: Socket) {
+    client.broadcast.emit(METHODTS.RECEIVE_DISONECT, { user: client.id })
+    client.disconnect()
+  }
+
   async send_offer (send_offer: SendOffer, client: Socket) {
     client.to(send_offer.user).emit(METHODTS.RECEIVE_OFFER, { offer: send_offer.offer, user: client.id })
   }

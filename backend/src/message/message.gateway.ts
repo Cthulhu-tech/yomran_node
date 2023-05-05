@@ -1,4 +1,4 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody, ConnectedSocket } from '@nestjs/websockets'
+import { WebSocketGateway, SubscribeMessage, MessageBody, ConnectedSocket, OnGatewayDisconnect } from '@nestjs/websockets'
 import { CreateMessageDto, SendAnswer, SendIceCandidate, SendOffer } from './dto/create-message.dto'
 import { UpdateMessageDto } from './dto/update-message.dto'
 import { MessageService } from './message.service'
@@ -16,7 +16,7 @@ import { METHODTS } from '../../methods'
   },
   allowEIO3: true
 })
-export class MessageGateway {
+export class MessageGateway  implements OnGatewayDisconnect {
   constructor(private readonly messageService: MessageService) {}
 
   @SubscribeMessage(METHODTS.JOIN_ROOM)
@@ -42,6 +42,7 @@ export class MessageGateway {
   ) {
     return this.messageService.send_answer(SendAnswer, client)
   }
+  
 
   @SubscribeMessage(METHODTS.SEND_ICE_CANDIDATE)
   send_ice_candidate(
@@ -69,5 +70,9 @@ export class MessageGateway {
   @SubscribeMessage(METHODTS.REMOVE_MESSAGE)
   remove(@MessageBody() updateMessageDto: UpdateMessageDto) {
     return this.messageService.remove(+updateMessageDto.messageId)
+  }
+
+  handleDisconnect(client: Socket){
+    return this.messageService.disconnect(client)
   }
 }
