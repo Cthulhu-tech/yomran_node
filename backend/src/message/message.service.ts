@@ -39,6 +39,7 @@ export class MessageService {
   }
 
   async send_ice_candidate (send_ice_candidate: SendIceCandidate, client: Socket) {
+    if(send_ice_candidate.candidate)
     client.to(send_ice_candidate.user).emit(METHODTS.RECEIVE_ICE_CANDIDATE, { candidate: send_ice_candidate.candidate, user: client.id })
   }
 
