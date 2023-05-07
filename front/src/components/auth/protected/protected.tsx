@@ -8,7 +8,7 @@ export const ProtectedRoute = (props: {children: React.ReactNode}) => {
 
     const location = useLocation()
     const user = useSelector<IStore, TokenType>((state) => state.Token)
-
+    
     if(!user.access && !location.pathname.includes('auth')) 
         return <Navigate to="/auth" state={{ from: location }} replace />
 
