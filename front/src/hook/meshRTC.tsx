@@ -30,6 +30,10 @@ export const useMeshRTC = (socket: Socket) => {
                         if(sendner.track === null || sendner.track.kind === "video") 
                             sendner.replaceTrack(streams.getTracks()[0])
                     })
+                    connection.getTransceivers().forEach((transiver) => {
+                        if(transiver.sender.track?.kind === null || transiver.sender.track?.kind === 'video')
+                            transiver.direction = 'sendrecv'
+                    })
                 })
             })
     }, [connections])

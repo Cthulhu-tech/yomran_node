@@ -11,13 +11,13 @@ export const Video = () => {
     const leaveHandler = () => navigate('/')
     const [hidden, setHidden] = useState(false)
 
-    const videoCamsHandler = useCallback(() => {
+    const videoCamsHandler = () => {
         setHidden((prevState) => {
             if(prevState) removeVideo()
             else replaceVideo()
             return !hidden
         })
-    }, [hidden])
+    }
 
     const { connections, videoView, userJoin, removeVideo, replaceVideo, muteOrVoice } = useMeshRTC(socket)
     return <>
