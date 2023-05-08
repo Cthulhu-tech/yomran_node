@@ -11,24 +11,24 @@ import { Video } from "../view/video/video"
 
 export const router = createHashRouter([
 {
-    path: '/',
-    element: <ProtectedRoute>
-            <Layout/>
-        </ProtectedRoute>,
-    loader: CheckRefresh,
-    errorElement: <Navigate to={'/auth'}/>,
-    children: [
-        {
-            index: true,
-            element: <Outlet/>
-        },
-        {
-            path: 'video',
+    // path: '/',
+    // element: <ProtectedRoute>
+    //         <Layout/>
+    //     </ProtectedRoute>,
+    // loader: CheckRefresh,
+    // errorElement: <Navigate to={'/auth'}/>,
+    // children: [
+    //     {
+    //         index: true,
+    //         element: <Outlet/>
+    //     },
+        // {
+            path: '/video',
             element: <SocketProvider>
                 <Video/>
             </SocketProvider>
-        }
-    ],
+        // }
+    // ],
 },
 {
     path: '/auth',

@@ -9,6 +9,10 @@ export type peerConnectionType = {
     [key:string]: RTCPeerConnection 
 }
 
+export type sendnerConnectionType = { 
+    [key:string]: RTCRtpSender 
+}
+
 export interface RECEIVE_OFFER extends RECEIVE_DISONECT {
     offer: RTCSessionDescriptionInit
 }

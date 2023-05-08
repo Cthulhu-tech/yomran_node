@@ -14,6 +14,30 @@ export const useMeshRTC = (socket: Socket) => {
         }
     },[])
 
+    const removeVideo = useCallback(() => {
+        Object.values(connections).forEach((connection) => {
+            connection.getSenders().forEach((sendner) => {
+                if (sendner.track?.kind === "video") connection.removeTrack(sendner)
+            })
+        })
+    }, [connections])
+
+    const replaceVideo = useCallback(async () => {
+        await navigator.mediaDevices.getUserMedia(await getContains())
+            .then((streams) => {
+                Object.values(connections).forEach((connection) => {
+                    connection.getSenders().forEach((sendner) => {
+                        if(sendner.track === null || sendner.track.kind === "video") 
+                            sendner.replaceTrack(streams.getTracks()[0])
+                    })
+                })
+            })
+    }, [connections])
+
+    const muteOrVoice = useCallback(() => {
+
+    }, [])
+
     const updateRef = useCallback((newData: peerConnectionType) => {
         peerConnections.current = {...peerConnections.current, ...newData}
         setConections(peerConnections.current)
@@ -93,6 +117,7 @@ export const useMeshRTC = (socket: Socket) => {
             })
     }
     useEffect(() => {
+        
         socket.emit('JOIN_ROOM', { room_id: 8 })
         socket.on('RECEIVE_CLIENT_JOINED', async ({ user_server_id }: RECEIVE_CLIENT_JOINED) => {
             const peerConnection = await createRTC(user_server_id)
@@ -135,5 +160,5 @@ export const useMeshRTC = (socket: Socket) => {
         }
     }, [])
 
-    return { connections, videoView, userJoin }
+    return { connections, videoView, userJoin , removeVideo, replaceVideo, muteOrVoice }
 }
