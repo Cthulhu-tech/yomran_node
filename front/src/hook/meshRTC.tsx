@@ -59,19 +59,20 @@ export const useMeshRTC = (socket: Socket) => {
 
     const audioHandler = useCallback(async (on: boolean) => {
         const stream = await navigator.mediaDevices.getUserMedia({audio: true})
+        const [audioTracks] = stream.getAudioTracks()
         if (on) {
             console.log("Turning on microphone")
             Object.values(connections).forEach((connection) => {
                 connection.getSenders().forEach((sendner) => {
                     if (sendner.track == null || sendner.track?.kind === 'audio') 
-                        sendner.replaceTrack(stream.getAudioTracks()[0])
+                        sendner.replaceTrack(audioTracks)
                 })
             })
         } else {
             console.log("Turning off microphone")
-            stream.getAudioTracks()[0].stop()
+            audioTracks.stop()
+            sendMessage('audio-stop')
         }
-        sendMessage('audio-stop')
     }, [])
 
     const updateRef = useCallback((newData: channelType<RTCPeerConnection>) => {
@@ -120,7 +121,8 @@ export const useMeshRTC = (socket: Socket) => {
         navigator.mediaDevices
             .getUserMedia(await getContains())
             .then((stream) => {
-                if(localVideo?.srcObject) localVideo.srcObject = stream
+                localVideo.srcObject = stream
+                localVideo.autoplay = true
             })
     }, [socket])
 
@@ -208,7 +210,9 @@ export const useMeshRTC = (socket: Socket) => {
     }, [socket])
 
     const videoView = useCallback((connection: RTCPeerConnection, entity: HTMLVideoElement) => {
+        console.log(entity)
         connection.ontrack = e => {
+            console.log('ontrack work!')
             entity.autoplay = true
             entity.srcObject = e.streams[0]
         }
