@@ -1,5 +1,6 @@
 import { UserVideoType } from "./type"
-import { useState } from "react"
+
+import { useState, useRef, useEffect } from "react"
 
 import { VideoCamera } from "../../../components/icon/videoCamera"
 import { SpeakerWave } from "../../../components/icon/speakerWave"
@@ -8,6 +9,7 @@ import { VideoCameraXMark } from "../../../components/icon/videoCameraXMark"
 
 export const UserVideo = ({ removeVideo, replaceVideo, audioHandler, userJoin }: UserVideoType) => {
 
+    const videoUser = useRef<HTMLVideoElement>(null)
     const [hidden, setHidden] = useState(false)
     const [mute, setMute] = useState(false)
 
@@ -26,10 +28,15 @@ export const UserVideo = ({ removeVideo, replaceVideo, audioHandler, userJoin }:
         })
     }
 
+    useEffect(() => {
+        if(videoUser.current)
+            userJoin(videoUser.current)
+    }, [videoUser])
+
     return <div className="aspect-video w-2/3">
         <video
             className="bg-slate-800 border-dotted border-2 border-indigo-600 w-full aspect-video"
-            ref={reference => reference && userJoin(reference)}
+            ref={videoUser}
         ></video>
         <div 
             onClick={audio}

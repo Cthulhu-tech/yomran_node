@@ -18,10 +18,10 @@ import {
 
 export const useMeshRTC = (socket: Socket) => {
 
+    const myVideoStream = useRef<MediaStream>()
     const dataChannels = useRef<channelType<RTCDataChannel>>({})
     const peerConnections = useRef<channelType<RTCPeerConnection>>({})
     const [connections, setConections] = useState<channelType<RTCPeerConnection>>({})
-
     const offerOptions = useMemo(() => {
         return {
             offerToReceiveVideo: true,
@@ -58,22 +58,18 @@ export const useMeshRTC = (socket: Socket) => {
     }, [connections])
 
     const audioHandler = useCallback(async (on: boolean) => {
-        const stream = await navigator.mediaDevices.getUserMedia({audio: true})
-        const [audioTracks] = stream.getAudioTracks()
         if (on) {
-            console.log("Turning on microphone")
-            Object.values(connections).forEach((connection) => {
-                connection.getSenders().forEach((sendner) => {
-                    if (sendner.track == null || sendner.track?.kind === 'audio') 
-                        sendner.replaceTrack(audioTracks)
-                })
+            console.log("Turning on microphone", myVideoStream.current && myVideoStream.current.getAudioTracks()[0])
+            if(myVideoStream.current) myVideoStream.current.getAudioTracks().forEach((track) => {
+                track.enabled = false
             })
         } else {
-            console.log("Turning off microphone")
-            audioTracks.stop()
-            sendMessage('audio-stop')
+            console.log("Turning off microphone", myVideoStream.current && myVideoStream.current.getAudioTracks()[0])
+            if(myVideoStream.current) myVideoStream.current.getAudioTracks().forEach((track) => {
+                track.enabled = false
+            })
         }
-    }, [])
+    }, [myVideoStream])
 
     const updateRef = useCallback((newData: channelType<RTCPeerConnection>) => {
         peerConnections.current = {...peerConnections.current, ...newData}
@@ -121,6 +117,8 @@ export const useMeshRTC = (socket: Socket) => {
         navigator.mediaDevices
             .getUserMedia(await getContains())
             .then((stream) => {
+                console.log(stream)
+                myVideoStream.current = stream
                 localVideo.srcObject = stream
                 localVideo.autoplay = true
             })
