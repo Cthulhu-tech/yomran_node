@@ -17,14 +17,14 @@ export const UserVideo = ({ removeVideo, replaceVideo, audioHandler, userJoin }:
         setHidden((prevState) => {
             if(!prevState) removeVideo()
             else replaceVideo()
-            return !hidden
+            return !prevState
         })
     }
 
     const audio = () => {
         setMute((prevState) => {
-            audioHandler(!mute)
-            return !mute
+            audioHandler(!prevState)
+            return !prevState
         })
     }
 
