@@ -24,15 +24,12 @@ export const useMeshRTC = (socket: Socket) => {
 
     const replaceVideo = useCallback(async () => {
         await navigator.mediaDevices.getUserMedia(await getContains())
-            .then((streams) => {
+            .then((stream) => {
+                const [videoTrack] = stream.getVideoTracks()
                 Object.values(connections).forEach((connection) => {
                     connection.getSenders().forEach((sendner) => {
-                        if(sendner.track === null || sendner.track.kind === "video") 
-                            sendner.replaceTrack(streams.getTracks()[0])
-                    })
-                    connection.getTransceivers().forEach((transiver) => {
-                        if(transiver.sender.track?.kind === null || transiver.sender.track?.kind === 'video')
-                            transiver.direction = 'sendrecv'
+                        if (sendner.track == null || sendner.track.kind === "video") 
+                            sendner.replaceTrack(videoTrack)
                     })
                 })
             })
