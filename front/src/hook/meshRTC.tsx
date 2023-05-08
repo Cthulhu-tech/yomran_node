@@ -1,11 +1,26 @@
-import { RECEIVE_ANSWER, RECEIVE_CLIENT_JOINED, RECEIVE_OFFER, RECEIVE_ICE_CANDIDATE, RECEIVE_DISONECT, peerConnectionType } from "./type"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Socket } from "socket.io-client"
+import {
+    RECEIVE_ANSWER,
+    RECEIVE_CLIENT_JOINED,
+    RECEIVE_OFFER,
+    RECEIVE_ICE_CANDIDATE,
+    RECEIVE_DISONECT,
+    channelType
+} from "./type"
+
+import {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from "react"
 
 export const useMeshRTC = (socket: Socket) => {
 
-    const peerConnections = useRef<peerConnectionType>({})
-    const [connections, setConections] = useState<peerConnectionType>({})
+    const dataChannels = useRef<channelType<RTCDataChannel>>({})
+    const peerConnections = useRef<channelType<RTCPeerConnection>>({})
+    const [connections, setConections] = useState<channelType<RTCPeerConnection>>({})
 
     const offerOptions = useMemo(() => {
         return {
@@ -14,12 +29,19 @@ export const useMeshRTC = (socket: Socket) => {
         }
     },[])
 
+    const sendMessage = useCallback((message: string) => {
+        Object.values(dataChannels.current).forEach((channel) => {
+            channel.send(message)
+        })
+    }, [dataChannels])
+
     const removeVideo = useCallback(() => {
         Object.values(connections).forEach((connection) => {
             connection.getSenders().forEach((sendner) => {
                 if (sendner.track?.kind === "video") connection.removeTrack(sendner)
             })
         })
+        sendMessage('video-stop')
     }, [connections])
 
     const replaceVideo = useCallback(async () => {
@@ -35,13 +57,36 @@ export const useMeshRTC = (socket: Socket) => {
             })
     }, [connections])
 
-    const muteOrVoice = useCallback(() => {
-
+    const audioHandler = useCallback(async (on: boolean) => {
+        const stream = await navigator.mediaDevices.getUserMedia({audio: true})
+        if (on) {
+            console.log("Turning on microphone")
+            Object.values(connections).forEach((connection) => {
+                connection.getSenders().forEach((sendner) => {
+                    if (sendner.track == null || sendner.track?.kind === 'audio') 
+                        sendner.replaceTrack(stream.getAudioTracks()[0])
+                })
+            })
+        } else {
+            console.log("Turning off microphone")
+            stream.getAudioTracks()[0].stop()
+        }
+        sendMessage('audio-stop')
     }, [])
 
-    const updateRef = useCallback((newData: peerConnectionType) => {
+    const updateRef = useCallback((newData: channelType<RTCPeerConnection>) => {
         peerConnections.current = {...peerConnections.current, ...newData}
         setConections(peerConnections.current)
+    },[])
+
+    const initiateDataChannel = useCallback((peerConnection: RTCPeerConnection, user: string) => {
+        const dataChannel = peerConnection.createDataChannel(user)
+        dataChannel.onopen = () => {
+            dataChannel.onmessage = (message) => {
+                console.log(`ondatachannel onmessage (initiateDataChannel) ${message.data}`)
+            }
+        }
+        dataChannels.current[user] = dataChannel
     },[])
 
     const getContains = useCallback(() => {
@@ -84,6 +129,7 @@ export const useMeshRTC = (socket: Socket) => {
         await Promise.all(streams.getTracks().map(track => peerConnection.addTrack(track, streams)))
     }
     const initiateSignaling = async ( peerConnection: RTCPeerConnection, user: string) => {
+        initiateDataChannel(peerConnection, user)
         await peerConnection.createOffer(offerOptions)
         .then(async (offer) => {
                 await peerConnection.setLocalDescription(offer)
@@ -114,7 +160,7 @@ export const useMeshRTC = (socket: Socket) => {
                 console.log(`send answer to ${user}`)
                 socket.emit('SEND_ANSWER', { answer, user })
             }, (err) => {
-                if (err) throw err;
+                if (err) throw err
             })
     }
     useEffect(() => {
@@ -128,6 +174,12 @@ export const useMeshRTC = (socket: Socket) => {
             console.log(`receive offer from ${user}`)
             const peerConnection = await createRTC(user)
             sendAnswer(offer, peerConnection, user)
+            peerConnection.ondatachannel = ({ channel }) => {
+                channel.onmessage = (message) => {
+                    console.log(`ondatachannel onmessage ${message.data}`)
+                }
+                dataChannels.current[user] = channel
+            }
         })
         // получить данные на отправку к подключению
         socket.on('RECEIVE_ANSWER', ({ answer, user }: RECEIVE_ANSWER) => {
@@ -143,6 +195,7 @@ export const useMeshRTC = (socket: Socket) => {
         socket.on('RECEIVE_DISONECT', ({ user }: RECEIVE_DISONECT) => {
             console.log(`client leave ${user}`)
             delete peerConnections.current[user]
+            delete dataChannels.current[user]
         })
         return () => {
             socket.close()
@@ -161,5 +214,5 @@ export const useMeshRTC = (socket: Socket) => {
         }
     }, [])
 
-    return { connections, videoView, userJoin , removeVideo, replaceVideo, muteOrVoice }
+    return { connections, videoView, userJoin , removeVideo, replaceVideo, audioHandler }
 }

@@ -5,12 +5,8 @@ export type RECEIVE_CLIENT_JOINED = {
     user_server_id: string
 }
 
-export type peerConnectionType = { 
-    [key:string]: RTCPeerConnection 
-}
-
-export type sendnerConnectionType = { 
-    [key:string]: RTCRtpSender 
+export type channelType<T> = { 
+    [key:string]: T 
 }
 
 export interface RECEIVE_OFFER extends RECEIVE_DISONECT {
