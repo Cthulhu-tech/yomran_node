@@ -8,7 +8,7 @@ import { Module } from '@nestjs/common'
 @Module({
   imports: [
     TypeOrmModule.forFeature([MessageEntity]),
-    TypeOrmModule.forFeature([ChatEntity])
+    TypeOrmModule.forFeature([ChatEntity]),
   ],
   providers: [MessageGateway, MessageService]
 })

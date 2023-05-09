@@ -19,8 +19,16 @@ import { METHODTS } from '../../methods'
 export class MessageGateway  implements OnGatewayDisconnect {
   constructor(private readonly messageService: MessageService) {}
 
+  @SubscribeMessage(METHODTS.JOIN_ROOM_MEDIA)
+  joinRoomMedia(
+    @MessageBody() data: JoinRoom,
+    @ConnectedSocket() client: Socket
+  ) {
+    return this.messageService.joinRoomMedia(data, client)
+  }
+
   @SubscribeMessage(METHODTS.JOIN_ROOM)
-  joinRoomRoom(
+  joinRoom(
     @MessageBody() data: JoinRoom,
     @ConnectedSocket() client: Socket
   ) {
@@ -43,7 +51,6 @@ export class MessageGateway  implements OnGatewayDisconnect {
     return this.messageService.send_answer(SendAnswer, client)
   }
   
-
   @SubscribeMessage(METHODTS.SEND_ICE_CANDIDATE)
   send_ice_candidate(
     @MessageBody() SendIceCandidate: SendIceCandidate,
@@ -74,5 +81,9 @@ export class MessageGateway  implements OnGatewayDisconnect {
 
   handleDisconnect(client: Socket){
     return this.messageService.disconnect(client)
+  }
+
+  afterInit() {
+    this.messageService.afterInit()
   }
 }
