@@ -23,7 +23,7 @@ export const router = createHashRouter([
     //         element: <Outlet/>
     //     },
         // {
-            path: '/video',
+            path: '/video/:link',
             element: <SocketProvider>
                 <Video/>
             </SocketProvider>
