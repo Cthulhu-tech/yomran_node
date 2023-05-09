@@ -19,14 +19,6 @@ import { METHODTS } from '../../methods'
 export class MessageGateway  implements OnGatewayDisconnect {
   constructor(private readonly messageService: MessageService) {}
 
-  @SubscribeMessage(METHODTS.JOIN_ROOM_MEDIA)
-  joinRoomMedia(
-    @MessageBody() data: JoinRoom,
-    @ConnectedSocket() client: Socket
-  ) {
-    return this.messageService.joinRoomMedia(data, client)
-  }
-
   @SubscribeMessage(METHODTS.JOIN_ROOM)
   joinRoom(
     @MessageBody() data: JoinRoom,
@@ -81,9 +73,5 @@ export class MessageGateway  implements OnGatewayDisconnect {
 
   handleDisconnect(client: Socket){
     return this.messageService.disconnect(client)
-  }
-
-  afterInit() {
-    this.messageService.afterInit()
   }
 }

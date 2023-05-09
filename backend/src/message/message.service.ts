@@ -7,16 +7,11 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Socket } from 'socket.io'
 
-import { mediaCodecs } from './mediaCodecs'
 import { METHODTS } from '../../methods'
 import { JoinRoom } from './type/type'
 
-import * as mediasoup from "mediasoup"
-
 @Injectable()
 export class MessageService {
-  private worker: mediasoup.types.Worker
-  private router: mediasoup.types.Router
   constructor(
     @InjectRepository(MessageEntity)
     private messageRepository: Repository<MessageEntity>,
@@ -36,11 +31,6 @@ export class MessageService {
     if(!findRoom || findRoom.delete)
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
     return findRoom
-  }
-
-  async afterInit() {
-    this.worker = await mediasoup.createWorker()
-    this.router = await this.worker.createRouter({ mediaCodecs })
   }
 
   async create(createMessageDto: CreateMessageDto) {
@@ -117,34 +107,5 @@ export class MessageService {
     client.broadcast.to(data.room_id).emit(METHODTS.RECEIVE_CLIENT_JOINED, {
       user_server_id: client.id,
     })
-  }
-
-  async joinRoomMedia(data: JoinRoom, client: Socket) {
-    this.searchRoom(data)
-    const transport = await this.router.createWebRtcTransport({ listenIps: [{ ip: '0.0.0.0', announcedIp: null }] })
-    const params: any = { producerTransportId: transport.id, kind: 'video', rtpParameters: {
-        codecs: [
-          {
-            payloadType: 96,
-            mimeType: 'video/VP8',
-            clockRate: 90000,
-            rtcpFeedback: [
-              { type: 'nack' },
-              { type: 'nack', parameter: 'pli' },
-              { type: 'ccm', parameter: 'fir' },
-            ],
-          },
-        ],
-      }
-    }
-    const producer = await transport.produce(params)
-
-    client.on('disconnect', () => producer.close())
-
-    client.on('pause', () => producer.pause())
-
-    client.on('resume', () => producer.resume())
-
-    client.join(data.room_id)
   }
 }
