@@ -1,13 +1,10 @@
 .container_room {
     display: grid;
-    grid-auto-columns: 1fr; 
     grid-template-columns: 1fr minmax(200px, 400px); 
-    grid-template-rows: 1fr 1fr 1fr 1fr 140px; 
+    grid-template-rows: 1fr 1fr 140px; 
     gap: 0px 0px;
     transition: 500ms;
     grid-template-areas: 
-      "video_user chat"
-      "video_user chat"
       "video_user chat"
       "video_users chat"
       "input_control chat";
@@ -16,12 +13,9 @@
 .container_room-full {
   display: grid;
   grid-auto-columns: 1fr; 
-  grid-template-columns: 1fr; 
-  grid-template-rows: 1fr 1fr 1fr 1fr 140px; 
+  grid-template-rows: 1fr 1fr 140px; 
   gap: 0px 0px; 
   grid-template-areas: 
-    "video_user"
-    "video_user"
     "video_user"
     "video_users"
     "input_control";

@@ -52,12 +52,12 @@ export const Video = () => {
 
     const { connections, videoView, userJoin, removeVideo, replaceVideo, audioHandler } = useMeshRTC(socket)
     
-    return <div className={chat ? "bg-gray-200 p-5 m-auto container_room h-screen transition-all delay-150 max-w-screen-2xl" : "bg-gray-200 p-5 m-auto container_room-full h-screen transition-all delay-150 max-w-screen-2xl"}>
+    return <div className={chat ? "bg-gray-200 h-full m-auto container_room transition-all delay-150" : "bg-gray-200 h-full m-auto container_room-full transition-all delay-150"}>
         {chat && <Chat/>}
-        <section className="video_user pr-5 w-full m-auto h-full flex items-center justify-center p-5">
+        <section className="video_user p-5">
             <MemoVideo videoUser={videoUser} hidden={hidden} userJoin={userJoin}/>
         </section>
-        <div className={chat ? 'pb-5 pt-5 overflow-y-auto video_users flex items-start max-w-screen-xl m-auto w-full h-full' : 'pb-5 pt-5 pr-5 overflow-y-auto h-full video_users flex items-start max-w-screen-xl m-auto w-full'}>
+        <div className='pb-5 pt-5 overflow-y-auto video_users flex items-start m-auto w-full h-full'>
             {Object.values(connections).length === 0 ? 
             <div className="w-full flex justify-center items-center flex-col h-full">
                 <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow-inner dark:bg-gray-800 dark:border-gray-700">
@@ -81,8 +81,8 @@ export const Video = () => {
         </div>
         <div className={
             chat ?
-            "input_control bg-white flex items-center justify-between p-5 rounded-bl-[20px] max-w-screen-xl m-auto w-full h-full shadow-inner" :
-            "input_control bg-white flex items-center justify-between p-5 rounded-bl-[20px] rounded-br-[20px] max-w-screen-xl m-auto w-full h-full shadow-inner"
+            "input_control bg-white flex items-center justify-between p-5 rounded-bl-[20px] m-auto w-full h-full shadow-inner" :
+            "input_control bg-white flex items-center justify-between p-5 rounded-bl-[20px] rounded-br-[20px] m-auto w-full h-full shadow-inner"
         }>
             <div className="flex w-3/4 controll_button h-full items-center justify-center m-auto">
                 <div

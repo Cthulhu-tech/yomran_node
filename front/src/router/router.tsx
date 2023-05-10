@@ -5,30 +5,23 @@ import { Layout } from '../components/layouts/layout'
 import { Login } from "../view/auth/login/login"
 import { Auth } from "../view/auth/auth"
 
+import { RefreshLoader } from "../components/layouts/loader"
 import { createHashRouter, Navigate, Outlet } from "react-router-dom"
 import { SocketProvider } from "../context/socketProvider"
 import { Video } from "../view/video/video"
 
 export const router = createHashRouter([
 {
-    // path: '/',
-    // element: <ProtectedRoute>
-    //         <Layout/>
-    //     </ProtectedRoute>,
-    // loader: CheckRefresh,
-    // errorElement: <Navigate to={'/auth'}/>,
-    // children: [
-    //     {
-    //         index: true,
-    //         element: <Outlet/>
-    //     },
-        // {
+    path: '/',
+    element: <Layout/>,
+    children: [
+        {
             path: '/video/:link',
             element: <SocketProvider>
                 <Video/>
             </SocketProvider>
-        // }
-    // ],
+        }
+    ]
 },
 {
     path: '/auth',
