@@ -59,15 +59,24 @@ export const useMeshRTC = (socket: Socket) => {
 
     const audioHandler = useCallback(async (on: boolean) => {
         if (on) {
-            console.log("Turning on microphone", myVideoStream.current && myVideoStream.current.getAudioTracks()[0])
-            if(myVideoStream.current) myVideoStream.current.getAudioTracks().forEach((track) => {
-                track.enabled = false
+            await navigator.mediaDevices.getUserMedia(await getContains())
+            .then((stream) => {
+                const [audioTrack] = stream.getAudioTracks()
+                Object.values(connections).forEach((connection) => {
+                    connection.getSenders().forEach((sendner) => {
+                        if (sendner.track == null || sendner.track.kind === "audio") 
+                            sendner.replaceTrack(audioTrack)
+                    })
+                })
+                if(myVideoStream.current) myVideoStream.current.getAudioTracks()[0].enabled = true
             })
         } else {
-            console.log("Turning off microphone", myVideoStream.current && myVideoStream.current.getAudioTracks()[0])
-            if(myVideoStream.current) myVideoStream.current.getAudioTracks().forEach((track) => {
-                track.enabled = false
+            Object.values(connections).forEach((connection) => {
+                connection.getSenders().forEach((sendner) => {
+                    if (sendner.track?.kind === "audio") connection.removeTrack(sendner)
+                })
             })
+            if(myVideoStream.current) myVideoStream.current.getAudioTracks()[0].enabled = false
         }
     }, [myVideoStream])
 

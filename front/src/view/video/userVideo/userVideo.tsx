@@ -35,6 +35,7 @@ export const UserVideo = ({ removeVideo, replaceVideo, audioHandler, userJoin }:
 
     return <div className="aspect-video w-2/3">
         <video
+            muted={mute}
             className="bg-slate-800 border-dotted border-2 border-indigo-600 w-full aspect-video"
             ref={videoUser}
         ></video>
