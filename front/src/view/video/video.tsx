@@ -1,6 +1,6 @@
 import { SocketContext } from "../../context/socketProvider"
+import { memo, useContext, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { memo, useContext, useState } from "react"
 
 import { Chat } from "../../components/chat/chat"
 import { UserVideo } from './userVideo/userVideo'
@@ -24,6 +24,7 @@ export const Video = () => {
     const navigate = useNavigate()
     const socket = useContext(SocketContext)
     const leaveHandler = () => navigate('/')
+    const videoUser = useRef<HTMLVideoElement>(null)
 
     const [hidden, setHidden] = useState(false)
     const [mute, setMute] = useState(false)
@@ -44,7 +45,7 @@ export const Video = () => {
 
     const audio = () => {
         setMute((prevState) => {
-            audioHandler(!prevState)
+            audioHandler(!prevState, videoUser.current)
             return !prevState
         })
     }
@@ -54,7 +55,7 @@ export const Video = () => {
     return <div className={chat ? "bg-gray-200 p-5 m-auto container_room h-screen transition-all delay-150 max-w-screen-2xl" : "bg-gray-200 p-5 m-auto container_room-full h-screen transition-all delay-150 max-w-screen-2xl"}>
         {chat && <Chat/>}
         <section className="video_user pr-5 w-full m-auto h-full flex items-center justify-center p-5">
-            <MemoVideo userJoin={userJoin}/>
+            <MemoVideo videoUser={videoUser} hidden={hidden} userJoin={userJoin}/>
         </section>
         <div className={chat ? 'pb-5 pt-5 overflow-y-auto video_users flex items-start max-w-screen-xl m-auto w-full h-full' : 'pb-5 pt-5 pr-5 overflow-y-auto h-full video_users flex items-start max-w-screen-xl m-auto w-full'}>
             {Object.values(connections).length === 0 ? 

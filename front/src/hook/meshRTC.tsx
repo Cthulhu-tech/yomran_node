@@ -50,24 +50,26 @@ export const useMeshRTC = (socket: Socket) => {
                 const [videoTrack] = stream.getVideoTracks()
                 Object.values(connections).forEach((connection) => {
                     connection.getSenders().forEach((sendner) => {
-                        if (sendner.track == null || sendner.track.kind === "video") 
+                        if (sendner.track === null || sendner.track.kind === "video") 
                             sendner.replaceTrack(videoTrack)
                     })
                 })
             })
     }, [connections])
 
-    const audioHandler = useCallback(async (on: boolean) => {
-        if (on) {
+    const audioHandler = useCallback(async (on: boolean, userVideo: HTMLVideoElement | null) => {
+        if (!on) {
+            if(myVideoStream.current) myVideoStream.current.getAudioTracks().forEach((track) => {
+                track.enabled = true
+            })
+            if(userVideo) userVideo.muted = false
             console.log("Turning on microphone", myVideoStream.current && myVideoStream.current.getAudioTracks()[0])
-            if(myVideoStream.current) myVideoStream.current.getAudioTracks().forEach((track) => {
-                track.enabled = false
-            })
         } else {
-            console.log("Turning off microphone", myVideoStream.current && myVideoStream.current.getAudioTracks()[0])
             if(myVideoStream.current) myVideoStream.current.getAudioTracks().forEach((track) => {
                 track.enabled = false
             })
+            if(userVideo) userVideo.muted = true
+            console.log("Turning off microphone", myVideoStream.current && myVideoStream.current.getAudioTracks()[0])
         }
     }, [myVideoStream])
 
@@ -140,10 +142,18 @@ export const useMeshRTC = (socket: Socket) => {
                 if (err) throw err
             })
     }
-    const createRTC = async (user: string) => {
+    const createRTC = async (user: string, offer = false) => {
         const peerConnection = new RTCPeerConnection()
         updateRef({ [user]: peerConnection})
-        await getStream(peerConnection)
+        if(!offer) await getStream(peerConnection)
+        else {
+            if(myVideoStream.current)
+            await Promise.all(myVideoStream.current.getTracks()
+                .map(track => {
+                    if(myVideoStream.current)
+                    peerConnection.addTrack(track, myVideoStream.current)
+                }))
+        }
         peerConnection.onicecandidate = ({ candidate }) => {
             if (candidate) {
                 console.log(`send ice candidate to ${user}`)
@@ -167,7 +177,7 @@ export const useMeshRTC = (socket: Socket) => {
         
         socket.emit('JOIN_ROOM', { room_id: 8 })
         socket.on('RECEIVE_CLIENT_JOINED', async ({ user_server_id }: RECEIVE_CLIENT_JOINED) => {
-            const peerConnection = await createRTC(user_server_id)
+            const peerConnection = await createRTC(user_server_id, true)
             await initiateSignaling(peerConnection, user_server_id)
         })
         socket.on('RECEIVE_OFFER', async ({ offer, user }: RECEIVE_OFFER) => {
