@@ -5,7 +5,7 @@ export const OrmConnection = TypeOrmModule.forRootAsync({
   useFactory: async () => ({
     type: 'mysql',
     host: process.env.host,
-    port: Number(process.env.port),
+    port: Number(process.env.port_sql),
     username: process.env.username,
     password: process.env.password,
     database: process.env.database,
