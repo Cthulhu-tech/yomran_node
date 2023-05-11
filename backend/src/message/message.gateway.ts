@@ -13,6 +13,7 @@ import { METHODTS } from '../../methods'
       methods: ["GET", "POST"],
       credentials: true,
       transports: ['websocket', 'polling'],
+      optionsSuccessStatus: 200,
   },
   allowEIO3: true
 })
