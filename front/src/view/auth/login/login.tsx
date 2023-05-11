@@ -1,6 +1,7 @@
 import { updateToken } from "../../../redux/token/token"
 import { TokenType } from "../../../redux/type"
 import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router-dom"
 import { useFetch } from "../../../hook/hook"
 import { useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
@@ -11,6 +12,7 @@ export const Login = () => {
 
     const { t } = useTranslation()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors }, } = useForm<UserLogin>()
 
     const { fetchData, returnData, error }= useFetch<UserLogin, TokenType>('auth/login', 'POST')
@@ -20,7 +22,7 @@ export const Login = () => {
     useEffect(() => {
       if(!error && returnData?.access){
         dispatch(updateToken(returnData.access))
-        window.location.replace('/')
+        navigate('/')
       }
     }, [returnData])
 

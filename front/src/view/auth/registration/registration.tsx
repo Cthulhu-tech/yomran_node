@@ -1,6 +1,7 @@
 import { updateToken } from "../../../redux/token/token"
 import { TokenType } from "../../../redux/type"
 import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router-dom"
 import { useFetch } from "../../../hook/hook"
 import { useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
@@ -10,8 +11,8 @@ import { useEffect } from "react"
 export const Registration = () => {
 
     const { t } = useTranslation()
-
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors }, } = useForm<UserRegistration>()
 
     const { fetchData, returnData, error } = useFetch<UserRegistration, TokenType>('users', 'POST')
@@ -19,9 +20,10 @@ export const Registration = () => {
     const handlerLogin = handleSubmit((data) => fetchData(data))
 
     useEffect(() => {
-      if(!error && returnData?.access)
+      if(!error && returnData?.access){
         dispatch(updateToken(returnData.access))
-        window.location.replace('/')
+        navigate('/')
+      }
     }, [returnData])
 
     return <section className="flex justify-center content-center w-full h-full">
