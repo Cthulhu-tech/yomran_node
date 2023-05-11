@@ -9,7 +9,7 @@ export const SocketProvider = ( props: {
         children: React.ReactNode,
     }) => {
     
-    const socket = useMemo(() => io('http://localhost:3001/', {
+    const socket = useMemo(() => io(process.env.REACT_APP_SERVER as string, {
         withCredentials: true,
         autoConnect: true,
     }), [])

@@ -14,7 +14,6 @@ export const router = createHashRouter([
 {
     path: '/',
     element: <Layout/>,
-    loader: () => RefreshLoader(),
     errorElement: <Navigate to="auth" />,
     children: [
         {
@@ -25,7 +24,6 @@ export const router = createHashRouter([
         },
         {
             path: 'auth',
-            element: <Layout/>,
             children: [
                 {
                     index: true,
