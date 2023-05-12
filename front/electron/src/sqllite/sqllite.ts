@@ -15,7 +15,7 @@ export class SqlLite {
     private createConnection = () => {
         this.connection = new DataSource({
             type: "sqlite",
-            database: './user_info',
+            database: './you_setting',
             synchronize: true,
             logging: true,
             entities,
