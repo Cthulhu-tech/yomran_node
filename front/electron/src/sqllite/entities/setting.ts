@@ -1,18 +1,26 @@
-import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn, BaseEntity } from "typeorm"
 import { User } from "./user"
 
-@Entity()
-export class Setting {
+export enum LanguageEnum {
+    english = 'english',
+    русский = 'русский'
+}
+
+@Entity('setting')
+export class Setting extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({ default: 'default' })
     name: string
 
-    @Column()
-    lang: string
+    @Column({ 
+        enum: LanguageEnum,
+        default: LanguageEnum.english
+    })
+    lang: LanguageEnum
 
-    @Column()
+    @Column({ default: 0 })
     themes: boolean
 
     @ManyToOne(() => User, (user) => user.settings)

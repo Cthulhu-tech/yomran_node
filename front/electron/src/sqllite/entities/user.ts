@@ -1,13 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm"
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BaseEntity } from "typeorm"
 import { Setting } from "./setting"
 
-@Entity()
-export class User {
+@Entity('user')
+export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column()
-    name: string
+    login: string
 
     @OneToMany(() => Setting, (setting) => setting.user)
     settings: Setting[]

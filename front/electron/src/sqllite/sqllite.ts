@@ -1,10 +1,9 @@
+import { entities } from "./entities/entries"
 import { Setting } from "./entities/setting"
 import { User } from "./entities/user"
 import { DataSource } from "typeorm"
 
 export class SqlLite {
-    private user: User
-    private setting: Setting
     private connection: DataSource
     private static instance: SqlLite
     constructor() {
@@ -12,26 +11,24 @@ export class SqlLite {
             return SqlLite.instance
         SqlLite.instance = this
         this.createConnection()
-        this.setEntities()
     }
-    private setEntities = () => {
-        this.user = new User()
-        this.setting = new Setting()
-    }
-    private createConnection = async () => {
+    private createConnection = () => {
         this.connection = new DataSource({
             type: "sqlite",
-            database: './setting',
-            entities: [User, Setting],
+            database: './user_info',
+            synchronize: true,
+            logging: true,
+            entities,
         })
+        this.connection.initialize()
     }
     getConnection = () => {
         return this.connection
     }
-    getUserEntities = () => {
-        return this.user
+    getUserRepository = () => {
+        return this.connection.getRepository(User)
     }
-    getSettingEntities = () => {
-        return this.setting
+    getSettingRepository = () => {
+        return this.connection.getRepository(Setting)
     }
 }
