@@ -23,7 +23,10 @@ export const _i18n = i18n
           'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter': 'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter',
           "This is a required field": "This is a required field",
           "waiting for your friends": "waiting for your friends",
-          "by this link": "by this link: "
+          "by this link": "by this link: ",
+          "logout": "logout",
+          "setting": "setting",
+          "home": "домашняя"
         }
       },
       ru: {
@@ -44,7 +47,10 @@ export const _i18n = i18n
           'Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter': 'Пароль длиной от 6 до 20 символов, содержащий как минимум одну цифру, одну заглавную и одну строчную букву',
           "This is a required field": 'Это обязательное поле',
           "waiting for your friends": "Жду твоих друзей",
-          "by this link": "по этой ссылке: "
+          "by this link": "по этой ссылке: ",
+          "logout": "выход",
+          "setting": "настройки",
+          "home": "домашняя"
         }
       }
     },
