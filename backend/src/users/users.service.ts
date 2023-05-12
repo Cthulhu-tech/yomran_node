@@ -25,6 +25,9 @@ export class UsersService {
     if(!createUserDto.email || !createUserDto.login || !createUserDto.password)
       throw new HttpException('All fields must be filled', HttpStatus.BAD_REQUEST)
 
+    if(!(/\S+@\S+\.\S+/).test(createUserDto.email))
+      throw new HttpException('Email not valid', HttpStatus.BAD_REQUEST)
+
     if(await this.findUserByEmail(createUserDto.email)) 
       throw new HttpException('This email address is used', HttpStatus.BAD_REQUEST)
 
