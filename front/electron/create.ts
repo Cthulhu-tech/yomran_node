@@ -10,11 +10,13 @@ import {
   notificationType,
 } from './src/interface/interface'
 
+import { SqlLite } from './src/sqllite/sqllite'
 import { Message } from './src/message'
 
 export class Window {
   private window: BrowserWindow
   private message: Message
+  private sql: SqlLite
   constructor() {
     this.message = new Message()
     this.window = new BrowserWindow({
@@ -28,6 +30,7 @@ export class Window {
         preload: path.join(__dirname, '/preload.js')
       }
     })
+    this.sql = new SqlLite()
   }
   public getWindow() {
     return this.window
@@ -58,5 +61,7 @@ export class Window {
     ipcMain.on('max', () => this.window.isMaximized() ? this.window.unmaximize() : this.window.maximize())
 
     ipcMain.on('notification', (event, { message, chat }: notificationType) => !this.window.isFocused() && this.message.newMessageAlarm({ message, chat }))
+
+    ipcMain.on('getUserSetting', () => )
   }
 }
