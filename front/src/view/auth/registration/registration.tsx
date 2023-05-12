@@ -43,8 +43,9 @@ export const Registration = () => {
       <div>
         <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('Email')}</span>
         <input
-         className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-         {...register('email', { required: "Email is required." })}
+          type='email'
+          className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          {...register('email', { required: "Email is required." })}
         />
         {errors.email &&
         <p
@@ -61,6 +62,12 @@ export const Registration = () => {
         <p
           className="mt-2 mb-2 text-sm text-red-800 rounded-lg"
         >{ t(errors.password.message as string) }</p>}
+      </div>
+      <div>
+        {error.message &&
+          <p
+            className="mt-2 mb-2 text-sm text-red-800 rounded-lg"
+          >{ t(error.message) }</p>}
       </div>
       <button className="w-full bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
           { t('registration') }

@@ -15,6 +15,7 @@ export const router = createHashRouter([
     path: '/',
     element: <Layout/>,
     errorElement: <Navigate to="auth" />,
+    loader: () => RefreshLoader(),
     children: [
         {
             path: '/video/:link',
@@ -23,26 +24,27 @@ export const router = createHashRouter([
             </SocketProvider>
         },
         {
-            path: 'auth',
-            children: [
-                {
-                    index: true,
-                    element: <Auth/>
-                },
-                {
-                    path: 'login',
-                    element: <Login/>
-                },
-                {
-                    path: 'registration',
-                    element: <Registration/>
-                },
-            ]
-        },
-        {
             path: '*',
             element: <>Not found</>
         }
+    ]
+},
+{
+    path: 'auth',
+    element: <Layout/>,
+    children: [
+        {
+            index: true,
+            element: <Auth/>
+        },
+        {
+            path: 'login',
+            element: <Login/>
+        },
+        {
+            path: 'registration',
+            element: <Registration/>
+        },
     ]
 },
 ])

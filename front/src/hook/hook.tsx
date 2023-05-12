@@ -7,7 +7,7 @@ import axios from 'axios'
 
 export const useFetch = <T = any,R = any>(url: string, method = 'GET', auth = false) => {
 
-    const [error, setError] = useState(false)
+    const [error, setError] = useState({message: ''})
     const [loading, setLoading] = useState(true)
     const [returnData, setReturnData] = useState<R>({} as R)
 
@@ -31,11 +31,11 @@ export const useFetch = <T = any,R = any>(url: string, method = 'GET', auth = fa
             withCredentials: true
         })
         .then((response) => {
-            if(response.status > 400) return Promise.reject(response.data)
+            if(response.status >= 400) return Promise.reject(response.data)
             return setReturnData(response.data)
         })
-        .catch(() => {
-            return setError(true)
+        .catch((error) => {
+            return setError({message: error.response.data.message})
         })
         .finally(() => setLoading(false))
     }
