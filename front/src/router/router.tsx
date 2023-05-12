@@ -1,20 +1,19 @@
-import { ProtectedRoute } from "../components/auth/protected/protected"
 import { Registration } from "../view/auth/registration/registration"
-import { CheckRefresh } from "../view/auth/refresh/refresh"
 import { Layout } from '../components/layouts/layout'
 import { Login } from "../view/auth/login/login"
 import { Auth } from "../view/auth/auth"
 
 import { RefreshLoader } from "../components/layouts/loader"
 import { SocketProvider } from "../context/socketProvider"
-import { Navigate, createHashRouter } from "react-router-dom"
+import { ErrorElement } from "../components/error/error"
+import { createHashRouter } from "react-router-dom"
 import { Video } from "../view/video/video"
 
 export const router = createHashRouter([
 {
     path: '/',
     element: <Layout/>,
-    errorElement: <Navigate to="auth" />,
+    errorElement: <ErrorElement/>,
     loader: () => RefreshLoader(),
     children: [
         {
@@ -31,7 +30,7 @@ export const router = createHashRouter([
 },
 {
     path: 'auth',
-    element: <Layout/>,
+    element: <Layout />,
     children: [
         {
             index: true,

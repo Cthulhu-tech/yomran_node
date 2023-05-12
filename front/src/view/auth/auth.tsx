@@ -1,9 +1,15 @@
+import { NavLink, Navigate } from "react-router-dom"
+import { IStore, TokenType } from "../../redux/type"
 import { useTranslation } from "react-i18next"
-import { NavLink } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 export const Auth = () => {
 
     const { t } = useTranslation()
+
+    const token = useSelector<IStore, TokenType>((store) => store.Token)
+
+    if(token.access) return <Navigate to='/'/>
 
     return  <section className="flex justify-center content-center items-center w-full h-full">
         <div className="w-96 flex justify-center content-center items-center">

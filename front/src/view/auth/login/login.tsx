@@ -20,7 +20,7 @@ export const Login = () => {
     const handlerLogin = handleSubmit((data) => fetchData(data))
 
     useEffect(() => {
-      if(!error && returnData?.access){
+      if(!error.message && returnData?.access){
         dispatch(updateToken(returnData.access))
         navigate('/')
       }
