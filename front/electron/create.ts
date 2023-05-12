@@ -6,10 +6,9 @@ import {
 
 import * as path from 'path'
 
-import {
-  notificationType,
-} from './src/interface/interface'
+import { notificationType, userLoginType } from './src/interface/interface'
 
+import { UserInfo } from './src/sqllite/user/user'
 import { SqlLite } from './src/sqllite/sqllite'
 import { Message } from './src/message'
 
@@ -17,8 +16,11 @@ export class Window {
   private window: BrowserWindow
   private message: Message
   private sql: SqlLite
+  private userInfo: UserInfo
   constructor() {
     this.message = new Message()
+    this.sql = new SqlLite()
+    this.userInfo = new UserInfo(this.sql)
     this.window = new BrowserWindow({
       width: 1200,
       height: 800,
@@ -30,13 +32,11 @@ export class Window {
         preload: path.join(__dirname, '/preload.js')
       }
     })
-    this.sql = new SqlLite()
   }
   public getWindow() {
     return this.window
   }
   public windowOpen = async () => {
-
     if (app.isPackaged) this.window.loadURL(`file://${__dirname}/../index.html`)
     else {
       this.window.loadURL('http://localhost:3000')
@@ -62,6 +62,6 @@ export class Window {
 
     ipcMain.on('notification', (event, { message, chat }: notificationType) => !this.window.isFocused() && this.message.newMessageAlarm({ message, chat }))
 
-    ipcMain.on('getUserSetting', () => )
+    ipcMain.handle('getUserSetting', async (event, { login }: userLoginType) => await this.userInfo.getUserSetting(login))
   }
 }

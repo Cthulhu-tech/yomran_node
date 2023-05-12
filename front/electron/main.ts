@@ -6,7 +6,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from 'electron-devtools-installer'
 
-import { Window } from './create';
+import { Window } from './create'
 
 app.whenReady().then(async () => {
   const _window = new Window()
