@@ -5,6 +5,7 @@ const defaultState: TokenType = {
     access: '',
     loading: true,
     user: '',
+    id: null,
 }
 
 export const Token = (state = defaultState, action:IAction<string, TokenType>) => {
@@ -15,6 +16,7 @@ export const Token = (state = defaultState, action:IAction<string, TokenType>) =
                 access: action.payload.access,
                 loading: action.payload.loading,
                 user: action.payload.user,
+                id: action.payload.id
             }
         case "update_loading_token": 
             return state = {
@@ -26,14 +28,18 @@ export const Token = (state = defaultState, action:IAction<string, TokenType>) =
     }
 }
 
-export const updateToken = (payload: string) => ({ 
-    type: "update_token", 
-    payload: {
-        access: payload,
-        loading: false,
-        user: decodeToken(payload)?.login || ''
-    },
-})
+export const updateToken = (payload: string) => {
+    const decode = decodeToken(payload)
+    return {
+        type: "update_token", 
+        payload: {
+            access: payload,
+            loading: false,
+            user: decode.login,
+            id: decode.userId
+        },
+    }
+}
 
 export const updateLoadingToken = (payload: boolean) => ({ 
     type: "update_loading_token", 

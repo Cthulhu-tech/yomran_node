@@ -16,6 +16,7 @@ export interface TokenRefresh {
 export interface TokenType extends TokenRefresh {
     loading: boolean
     user: string
+    id: number | null
 }
 
 export interface ChatsType {
