@@ -5,7 +5,7 @@ export const _i18n = i18n
 .use(initReactI18next)
   .init({
     resources: {
-      en: {
+      english: {
         translation: {
           "chat_list_name": "Chat save list",
           "create": 'Create conference',
@@ -26,10 +26,10 @@ export const _i18n = i18n
           "by this link": "by this link: ",
           "logout": "logout",
           "setting": "setting",
-          "home": "домашняя"
+          "home": "start"
         }
       },
-      ru: {
+      русский: {
         translation: {
           "chat_list_name": "Список сохранённых чатов",
           "create": 'создать конференцию',
@@ -50,7 +50,7 @@ export const _i18n = i18n
           "by this link": "по этой ссылке: ",
           "logout": "выход",
           "setting": "настройки",
-          "home": "домашняя"
+          "home": "стартовая"
         }
       }
     },

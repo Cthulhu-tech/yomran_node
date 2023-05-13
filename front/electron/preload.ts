@@ -1,4 +1,4 @@
-import { notificationType, userLoginType } from './src/interface/interface'
+import { changeLanguage, notificationType, userLoginType } from './src/interface/interface'
 import { contextBridge, ipcRenderer } from 'electron'
 import { User } from './src/sqllite/entities/user'
 
@@ -17,5 +17,11 @@ contextBridge.exposeInMainWorld('api', {
     },
     getUserSetting: ({ login }: userLoginType): Promise<User | null> => {
         return ipcRenderer.invoke('getUserSetting', { login })
+    },
+    createUserSetting: ({ login }: userLoginType): Promise<User | null> => {
+        return ipcRenderer.invoke('createUserSetting', { login })
+    },
+    changeLanguage: ({ id, language, login }: changeLanguage): Promise<User | null> => {
+        return ipcRenderer.invoke('changeLanguage', { id, language, login })
     },
 })

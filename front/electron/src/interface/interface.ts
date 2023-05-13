@@ -3,7 +3,11 @@ export type notificationType = {
     chat: string
 }
 
-export type userLoginType = {
+export interface userLoginType {
     login: string
 }
 
+export interface changeLanguage extends userLoginType {
+    id: number
+    language: string
+}
