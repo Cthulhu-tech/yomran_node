@@ -1,0 +1,18 @@
+.chat-data {
+    gap: 0px 0px;
+    display: grid;
+    height: 100%;
+    grid-auto-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-template-columns: minmax(200px, 300px) 1.5fr; 
+    grid-template-areas:
+      "chat-list chat-messages";
+}
+
+.chat-list {
+    grid-area: chat-list;
+}
+
+.chat-messages {
+    grid-area: chat-messages;
+}

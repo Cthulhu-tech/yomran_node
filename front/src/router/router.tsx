@@ -3,7 +3,6 @@ import { Layout } from '../components/layouts/layout'
 import { Login } from "../view/auth/login/login"
 import { Auth } from "../view/auth/auth"
 
-import { ChatMessage } from "../components/chatMessage/chatMessage"
 import { RefreshLoader } from "../components/layouts/loader"
 import { ChatData } from "../components/chatData/chatData"
 import { SocketProvider } from "../context/socketProvider"
@@ -27,10 +26,6 @@ export const router = createHashRouter([
             element: <SocketProvider>
                 <Video/>
             </SocketProvider>
-        },
-        {
-            path: '/chat/:id',
-            element: <ChatMessage/>
         },
         {
             path: '*',
