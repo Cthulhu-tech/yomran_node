@@ -50,6 +50,7 @@ export class ChatsService {
       .andWhere('chat.delete = :delete', {
         delete: false
       })
+      .select(['chat.name', 'chat.id', 'chat.delete', 'chat.create_time'])
       .getMany()
   }
 
