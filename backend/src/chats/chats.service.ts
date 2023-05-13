@@ -39,6 +39,24 @@ export class ChatsService {
     }
   }
 
+  async getChatById(id: number) {
+    if(!id || isNaN(id))
+      throw new HttpException('All fields must be filled', HttpStatus.BAD_REQUEST)
+
+    return await this.chatRepository
+    .createQueryBuilder('chat')
+    .leftJoin('chat.messages', 'messages')
+    .leftJoin('messages.message_creater', 'creater')
+    .where('chat.id = :id', { 
+      id,
+    })
+    .andWhere('chat.delete = :delete', {
+      delete: false
+    })
+    .select(['chat', 'messages.create_time', 'messages.message', 'messages.id', 'creater.id', 'creater.login'])
+    .getOne()
+  }
+
   async findAll(updateChatDto: UpdateChatDto) {
     return await this.chatRepository
       .createQueryBuilder('chat')

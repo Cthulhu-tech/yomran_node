@@ -17,6 +17,11 @@ export class ChatsController {
     return this.chatsService.findAll(updateChatDto)
   }
 
+  @Get(':id')
+  getChatById(@Param('id') id: string) {
+    return this.chatsService.getChatById(+id)
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateChatDto: UpdateChatDto) {
     return this.chatsService.update(+id, updateChatDto)
