@@ -10,12 +10,14 @@ import './chatData.scss'
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { updateChatList } from "../../redux/chatList/chatList"
+import { useTranslation } from "react-i18next"
 
 const ChatMessageMemo = memo(ChatMessage)
 
 export const ChatData = () => {
 
     const dispatch = useDispatch()
+    const { t } = useTranslation()
     const messageList = useSelector<IStore, ChatsType[]>((store) => store.ChatList)
     const { fetchData, returnData, loading } = useFetch<undefined, ChatsType[]>('chats', 'GET', true)
 
@@ -45,7 +47,7 @@ export const ChatData = () => {
                                 {chatData.name}
                             </p>
                             <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                                {'Creater: ' + chatData.chat_creater.login}
+                                { t('Creater') + ': ' + chatData.chat_creater.login}
                             </p>
                             <p className="text-sm text-gray-500 truncate dark:text-gray-400">
                                 {new Date(chatData.create_time).toLocaleString()}
