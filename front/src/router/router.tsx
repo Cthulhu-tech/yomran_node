@@ -6,6 +6,7 @@ import { Auth } from "../view/auth/auth"
 import { RefreshLoader } from "../components/layouts/loader"
 import { ChatData } from "../components/chatData/chatData"
 import { SocketProvider } from "../context/socketProvider"
+import { NotFound } from "../components/notFound/notFound"
 import { ErrorElement } from "../components/error/error"
 import { createHashRouter } from "react-router-dom"
 import { Create } from "../view/create/create"
@@ -34,7 +35,7 @@ export const router = createHashRouter([
         },
         {
             path: '*',
-            element: <>Not found</>
+            element: <NotFound/>
         }
     ]
 },
