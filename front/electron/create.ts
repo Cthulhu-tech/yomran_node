@@ -65,6 +65,6 @@ export class Window {
     ipcMain.handle('getUserSetting', async (event, { login }: userLoginType) => await this.userInfo.getUserSetting(login))
     ipcMain.handle('createUserSetting', async (event, { login }: userLoginType) => await this.userInfo.createUserSetting(login))
     ipcMain.handle('changeLanguage', async (event, { id, language, login }: changeLanguage) => await this.userInfo.changeLanguage(language, id, login))
-    ipcMain.handle('createRoom', async (event, { id, name }: createRoom) => await this.userInfo.createRoom({ id, name }))
+    ipcMain.handle('createRoom', async (event, { id, name, password }: createRoom) => await this.userInfo.createRoom({ id, name, password }))
   }
 }

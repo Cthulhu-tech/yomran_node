@@ -62,9 +62,8 @@ export class UserInfo {
             }
         })
     }
-    async createRoom ({ id, name }: createRoom) {
-        console.log(id, name)
-        const token = await sign({ id, name }, `${name}`)
+    async createRoom ({ id, name, password }: createRoom) {
+        const token = await sign({ id, name, password }, `${password}`)
         return token
     }
 }

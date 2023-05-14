@@ -24,7 +24,7 @@ contextBridge.exposeInMainWorld('api', {
     changeLanguage: ({ id, language, login }: changeLanguage): Promise<User | null> => {
         return ipcRenderer.invoke('changeLanguage', { id, language, login })
     },
-    createRoom: ({ id, name }: createRoom): Promise<User | null> => {
-        return ipcRenderer.invoke('createRoom', {  id, name })
+    createRoom: ({ id, name, password }: createRoom): Promise<User | null> => {
+        return ipcRenderer.invoke('createRoom', {  id, name, password })
     },
 })
