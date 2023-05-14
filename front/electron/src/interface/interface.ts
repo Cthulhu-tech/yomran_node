@@ -11,3 +11,8 @@ export interface changeLanguage extends userLoginType {
     id: number
     language: string
 }
+
+export interface createRoom {
+    id: number
+    name: string
+}

@@ -1,5 +1,8 @@
+import { createRoom } from "../../interface/interface"
 import { LanguageEnum } from "../entities/setting"
 import { SqlLite } from "../sqllite"
+
+import { sign } from 'jsonwebtoken'
 
 export class UserInfo {
     private sql: SqlLite
@@ -58,5 +61,9 @@ export class UserInfo {
                 login,
             }
         })
+    }
+    async createRoom ({ id, name }: createRoom) {
+        const token = await sign({ id, name }, name + id)
+        return token
     }
 }

@@ -1,4 +1,4 @@
-import { changeLanguage, notificationType, userLoginType } from './src/interface/interface'
+import { changeLanguage, createRoom, notificationType, userLoginType } from './src/interface/interface'
 import { contextBridge, ipcRenderer } from 'electron'
 import { User } from './src/sqllite/entities/user'
 
@@ -23,5 +23,8 @@ contextBridge.exposeInMainWorld('api', {
     },
     changeLanguage: ({ id, language, login }: changeLanguage): Promise<User | null> => {
         return ipcRenderer.invoke('changeLanguage', { id, language, login })
+    },
+    createRoom: ({ id, name }: createRoom): Promise<User | null> => {
+        return ipcRenderer.invoke('createRoom', {  id, name })
     },
 })

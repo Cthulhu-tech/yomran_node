@@ -6,7 +6,7 @@ import {
 
 import * as path from 'path'
 
-import { changeLanguage, notificationType, userLoginType } from './src/interface/interface'
+import { changeLanguage, createRoom, notificationType, userLoginType } from './src/interface/interface'
 
 import { UserInfo } from './src/sqllite/user/user'
 import { SqlLite } from './src/sqllite/sqllite'
@@ -65,5 +65,6 @@ export class Window {
     ipcMain.handle('getUserSetting', async (event, { login }: userLoginType) => await this.userInfo.getUserSetting(login))
     ipcMain.handle('createUserSetting', async (event, { login }: userLoginType) => await this.userInfo.createUserSetting(login))
     ipcMain.handle('changeLanguage', async (event, { id, language, login }: changeLanguage) => await this.userInfo.changeLanguage(language, id, login))
+    ipcMain.handle('createRoom', async (event, { id, name }: createRoom) => await this.userInfo.createRoom({ id, name }))
   }
 }
