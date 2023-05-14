@@ -31,13 +31,30 @@ export const ChatData = () => {
         if(returnData.length > 0) dispatch(updateChatList(returnData))
     }, [returnData])
 
-    if(loading) return <Loading/>
-
     return <section className="chat-data">
-        <div className="chat-list">{messageList.map((chatData) => 
-        <span onClick={() => chatIdHandler(chatData.id)} key={chatData.id} className="cursor-pointer">
-            {chatData.name}
-        </span>)}</div>
+        <div className="chat-list w-full overflow-auto">
+            <ul>{messageList.map((chatData) => 
+                <li 
+                    className="py-3 m-2 sm:py-4 pl-2 pr-2 cursor-pointer rounded-lg shadow bg-white" 
+                    key={chatData.id}
+                    onClick={() => chatIdHandler(chatData.id)}
+                >
+                    <div className="flex items-center space-x-4">
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                {chatData.name}
+                            </p>
+                            <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                                {'Creater: ' + chatData.chat_creater.login}
+                            </p>
+                            <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                                {new Date(chatData.create_time).toLocaleString()}
+                            </p>
+                        </div>
+                    </div>
+                </li>)}
+            </ul>
+        </div>
         <ChatMessageMemo chatId={id.chatId}/>
     </section>
 }

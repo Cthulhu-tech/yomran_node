@@ -21,9 +21,23 @@ export const ChatMessage = ({ chatId }: ChatId) => {
         if(returnData) dispatch(updateMessages(returnData))
     }, [returnData])
 
-    return <div className="chat-messages">{messageList?.messages?.map((msg) => {
-        return  <div key={msg.id}>
-            {msg.create_time}
+    return <div className="chat-messages w-full overflow-auto p-5">{messageList?.messages?.map((msg) => {
+        return msg.message_creater.id !== userId ?
+        <div key={msg.id} className="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
+            <div className="w-full flex flex-col">
+                <div className="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
+                    <p className="text-sm">{msg.message}</p>
+                </div>
+                <span className="text-xs text-gray-500 m-2 text-end">{new Date(msg.create_time).toLocaleTimeString()}</span>
+            </div>
+        </div> :
+        <div key={msg.id} className="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
+            <div className="w-full flex flex-col">
+                <div className="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
+                    <p className="text-sm">{msg.message}</p>
+                </div>
+                <span className="text-xs text-gray-500 m-2 text-end">{new Date(msg.create_time).toLocaleTimeString()}</span>
+            </div>
         </div>
     }
     )}</div>
