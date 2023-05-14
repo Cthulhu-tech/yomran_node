@@ -53,13 +53,19 @@ export class MessageGateway  implements OnGatewayDisconnect {
   }
 
   @SubscribeMessage(METHODTS.CREATE_MESSAGE)
-  create(@MessageBody() createMessageDto: CreateMessageDto) {
-    return this.messageService.create(createMessageDto)
+  create(
+    @MessageBody() createMessageDto: CreateMessageDto,
+    @ConnectedSocket() client: Socket
+  ) {
+    return this.messageService.create(createMessageDto, client)
   }
 
   @SubscribeMessage(METHODTS.FIND_ALL_MESSAGE)
-  findAll(@MessageBody() updateMessageDto: UpdateMessageDto) {
-    return this.messageService.findAll(+updateMessageDto.chatId)
+  findAll(
+    @MessageBody() updateMessageDto: UpdateMessageDto,
+    @ConnectedSocket() client: Socket
+    ) {
+    return this.messageService.findAll(+updateMessageDto.chatId, client)
   }
 
   @SubscribeMessage(METHODTS.UPDATE_MESSAGE)

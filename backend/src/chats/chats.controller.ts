@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Req } from '@nestjs/common'
 import { CreateChatDto } from './dto/create-chat.dto'
 import { UpdateChatDto } from './dto/update-chat.dto'
 import { ChatsService } from './chats.service'
+import { Request } from 'express'
 
 @Controller('chats')
 export class ChatsController {
@@ -28,7 +29,11 @@ export class ChatsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @Body() updateChatDto: UpdateChatDto) {
-    return this.chatsService.remove(+id, updateChatDto)
+  remove(
+    @Param('id') id: string,
+    @Body() updateChatDto: UpdateChatDto,
+    @Req() req: Request
+  ) {
+    return this.chatsService.remove(+id, updateChatDto, req)
   }
 }

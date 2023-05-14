@@ -1,4 +1,5 @@
 import { ChatEntity } from 'src/chats/entities/chat.entity'
+import { UserEntity } from 'src/users/entities/user.entity'
 import { MessageEntity } from './entities/message.entity'
 import { MessageService } from './message.service'
 import { MessageGateway } from './message.gateway'
@@ -9,6 +10,7 @@ import { Module } from '@nestjs/common'
   imports: [
     TypeOrmModule.forFeature([MessageEntity]),
     TypeOrmModule.forFeature([ChatEntity]),
+    TypeOrmModule.forFeature([UserEntity]),
   ],
   providers: [MessageGateway, MessageService]
 })

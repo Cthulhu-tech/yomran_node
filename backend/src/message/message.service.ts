@@ -2,6 +2,7 @@ import { CreateMessageDto, SendAnswer, SendIceCandidate, SendOffer } from './dto
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { UpdateMessageDto } from './dto/update-message.dto'
 import { ChatEntity } from 'src/chats/entities/chat.entity'
+import { UserEntity } from 'src/users/entities/user.entity'
 import { MessageEntity } from './entities/message.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
@@ -17,32 +18,60 @@ export class MessageService {
     private messageRepository: Repository<MessageEntity>,
     @InjectRepository(ChatEntity)
     private chatRepository: Repository<ChatEntity>,
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
   ){}
 
-  private async searchRoom (data: JoinRoom) {
+  private async searchRoom (data: JoinRoom, client: Socket) {
     const roomId = Number(data?.room_id)
     if(!data?.room_id || isNaN(roomId))
       throw new HttpException('All fields must be filled', HttpStatus.BAD_REQUEST)
-    const findRoom = await this.chatRepository.findOne({
-      where: {
-        id: roomId
-      }
-    })
-    if(!findRoom || findRoom.delete)
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+    const findRoom = await this.chatRepository
+      .createQueryBuilder('chat')
+      .leftJoinAndSelect('chat.users', 'users')
+      .where('chat.id = :id', { 
+        id: data.room_id
+      })
+      .getOne()
+    if(!findRoom || findRoom.delete || !findRoom.work) {
+      client.leave(roomId.toString())
+      throw new HttpException('Not found', HttpStatus.BAD_REQUEST)
+    }
     return findRoom
   }
 
-  async create(createMessageDto: CreateMessageDto) {
+  async create(createMessageDto: CreateMessageDto, client: Socket) {
     if(!createMessageDto.message)
       throw new HttpException('All fields must be filled', HttpStatus.BAD_REQUEST)
 
-    const createMessage = await this.messageRepository.create({
-      message: createMessageDto.message,
-      message_creater: createMessageDto.user,
+    const user = await this.userRepository.findOneBy({
+      id: createMessageDto.user,
     })
 
-    return await this.messageRepository.save(createMessage)
+    const chat = await this.chatRepository.findBy({
+      id: createMessageDto.room,
+    })
+
+    const createMessage = await this.messageRepository.create({
+      message: createMessageDto.message,
+      message_creater: user,
+      chats: chat
+    })
+
+    const saveMessage = await this.messageRepository.save(createMessage)
+
+    const returnData = {
+      id: saveMessage.id,
+      create_time: saveMessage.create_time,
+      message_creater: {
+        id: saveMessage.message_creater.id,
+        login: saveMessage.message_creater.login,
+      },
+      message: saveMessage.message,
+    }
+
+    client.broadcast.to(createMessageDto.room.toString()).emit(METHODTS.CREATE_MESSAGE, returnData)
+    client.emit(METHODTS.CREATE_MESSAGE, returnData)
   }
 
   async disconnect (client: Socket) {
@@ -63,11 +92,11 @@ export class MessageService {
     client.to(send_ice_candidate.user).emit(METHODTS.RECEIVE_ICE_CANDIDATE, { candidate: send_ice_candidate.candidate, user: client.id })
   }
 
-  async findAll(chatId: number) {
+  async findAll(chatId: number, client: Socket) {
     if(!chatId || isNaN(chatId))
       throw new HttpException('All fields must be filled', HttpStatus.BAD_REQUEST)
 
-    return await this.messageRepository
+    const messages = await this.messageRepository
       .createQueryBuilder('message')
       .leftJoin('message.chats', 'chats')
       .leftJoin('message.message_creater', 'creater')
@@ -76,6 +105,8 @@ export class MessageService {
         id: chatId,
       })
       .getMany()
+
+    client.emit(METHODTS.FIND_ALL_MESSAGE, { messages })
   }
 
   async update(updateMessageDto: UpdateMessageDto) {
@@ -101,7 +132,15 @@ export class MessageService {
   }
 
   async joinRoom(data: JoinRoom, client: Socket) {
-    this.searchRoom(data)
+    const findRoom = await this.searchRoom(data, client)
+    const user = await this.userRepository.findOneBy({
+      id: data.user_id
+    })
+
+    await this.chatRepository.save({
+      ...findRoom,
+      users: [...findRoom.users || [], user]
+    })
 
     client.join(data.room_id)
     client.broadcast.to(data.room_id).emit(METHODTS.RECEIVE_CLIENT_JOINED, {

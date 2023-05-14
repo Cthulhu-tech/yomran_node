@@ -4,6 +4,7 @@ import { UpdateChatDto } from './dto/update-chat.dto'
 import { ChatEntity } from './entities/chat.entity'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import { Request } from 'express'
 
 @Injectable()
 export class ChatsService {
@@ -63,7 +64,7 @@ export class ChatsService {
       .createQueryBuilder('chat')
       .leftJoin('chat.users', 'users')
       .leftJoin('chat.chat_creater', 'chat_creater')
-      .where('chat_creater.id = :id', { 
+      .where('users.id = :id', { 
         id: updateChatDto.user.id,
       })
       .andWhere('chat.delete = :delete', {
@@ -101,31 +102,27 @@ export class ChatsService {
     }
   }
 
-  async remove(id: number, updateChatDto: UpdateChatDto) {
+  async remove(id: number, updateChatDto: UpdateChatDto, req: Request) {
     if(!id || isNaN(id)) 
       throw new HttpException('All fields must be filled', HttpStatus.BAD_REQUEST)
 
-    const findChat = await this.chatRepository.findOne({
-      relations: {
-        chat_creater: true
-      },
-      where: {
-        id
-      }
-    })
+    const findChat = await this.chatRepository
+      .createQueryBuilder('chat')
+      .leftJoinAndSelect('chat.users', 'users')
+      .where({
+        id,
+      })
+      .getOne()
 
     if(!findChat) 
       throw new HttpException('Not found', HttpStatus.BAD_REQUEST)
 
-    if(findChat.chat_creater.id !== updateChatDto.user.id)
-      throw new HttpException('Not enough rights', HttpStatus.FORBIDDEN)
+    findChat.users = findChat.users.filter((user) => user.id !== req.body.user.id)
 
-    const _delete = await this.chatRepository.update({ id }, {
-      delete: true
-    })
+    await this.chatRepository.manager.save(findChat)
 
     return {
-      message: _delete.affected ? 'Chat delete' : 'Chat not delete'
+      message: 'Chat delete',
     }
   }
 }
