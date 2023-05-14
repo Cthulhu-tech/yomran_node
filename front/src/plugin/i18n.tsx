@@ -8,7 +8,7 @@ export const _i18n = i18n
       english: {
         translation: {
           "chat_list_name": "Chat save list",
-          "create": 'create conference',
+          "create conference": 'create conference',
           "create_room": "Create room",
           "cancel": "Cancel",
           "room_name": "Room name",
@@ -26,13 +26,20 @@ export const _i18n = i18n
           "by this link": "by this link: ",
           "logout": "logout",
           "setting": "setting",
-          "home": "start"
+          "home": "start",
+          "room name": 'room name',
+          "password": 'password',
+          "Login": "Login",
+          "Registration": "Registration",
+          "email": "email",
+          "Submit": "Submit",
+          "Creater": "Creater",
         }
       },
       русский: {
         translation: {
           "chat_list_name": "Список сохранённых чатов",
-          "create": 'создать конференцию',
+          "create conference": 'создать конференцию',
           "create_room": "создать",
           "cancel": "отмена",
           "room_name": "Название комнаты",
@@ -51,6 +58,13 @@ export const _i18n = i18n
           "logout": "выход",
           "setting": "настройки",
           "home": "стартовая",
+          "room name": 'название комнаты',
+          "password": 'пароль',
+          "Login": "Вход",
+          "Registration": "Регистрация",
+          "email": "почта",
+          "Submit": "Отправить",
+          "Creater": "Создатель",
         }
       }
     },
