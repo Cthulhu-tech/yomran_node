@@ -6,7 +6,7 @@ export const NotFound = () => {
     const location = useLocation()
     const { t } = useTranslation()
 
-    return <div className="flex flex-col justify-center items-center h-full">
+    return <div className="flex flex-col justify-center items-center h-full bg-slate-100">
         <div className="max-w-5xl p-5 m-auto">
             <p className="text-sm italic">{ t('Not Found URL: ') + location.pathname }</p>
             <div className="flex">

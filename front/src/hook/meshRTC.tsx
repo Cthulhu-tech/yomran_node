@@ -16,6 +16,8 @@ import {
     useRef,
     useState
 } from "react"
+import { IStore, TokenType } from "../redux/type"
+import { useSelector } from "react-redux"
 
 export const useMeshRTC = (socket: Socket) => {
 
@@ -24,6 +26,9 @@ export const useMeshRTC = (socket: Socket) => {
     const dataChannels = useRef<channelType<RTCDataChannel>>({})
     const peerConnections = useRef<channelType<RTCPeerConnection>>({})
     const [connections, setConections] = useState<channelType<RTCPeerConnection>>({})
+
+    const token = useSelector<IStore, TokenType>((store) => store.Token)
+
     const offerOptions = useMemo(() => {
         return {
             offerToReceiveVideo: true,
@@ -75,8 +80,9 @@ export const useMeshRTC = (socket: Socket) => {
         }
     }, [myVideoStream])
 
-    const updateRef = useCallback((newData: channelType<RTCPeerConnection>) => {
-        peerConnections.current = {...peerConnections.current, ...newData}
+    const updateRef = useCallback((newData?: channelType<RTCPeerConnection>) => {
+        if(newData) peerConnections.current = {...peerConnections.current, ...newData || {}}
+        else peerConnections.current = {...peerConnections.current}
         setConections(peerConnections.current)
     },[])
 
@@ -177,7 +183,10 @@ export const useMeshRTC = (socket: Socket) => {
     }
     useEffect(() => {
         
-        socket.emit('JOIN_ROOM', { room_id: id })
+        socket.emit('JOIN_ROOM', { 
+            room_id: id,
+            user_id: token.id
+        })
         socket.on('RECEIVE_CLIENT_JOINED', async ({ user_server_id }: RECEIVE_CLIENT_JOINED) => {
             const peerConnection = await createRTC(user_server_id, true)
             await initiateSignaling(peerConnection, user_server_id)
@@ -205,9 +214,9 @@ export const useMeshRTC = (socket: Socket) => {
         })
         // получить данные отключения
         socket.on('RECEIVE_DISONECT', ({ user }: RECEIVE_DISONECT) => {
-            console.log(`client leave ${user}`)
             delete peerConnections.current[user]
             delete dataChannels.current[user]
+            updateRef()
         })
         return () => {
             socket.close()

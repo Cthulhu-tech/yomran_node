@@ -25,7 +25,7 @@ export const ChatData = () => {
 
     const [id, setChatId] = useState<ChatId>({ chatId: null })
 
-    const chatIdHandler = (id: number) => setChatId({ chatId: id })
+    const chatIdHandler = (id: number | null) => setChatId({ chatId: id })
 
     useEffect(() => {
         fetchData()
@@ -36,7 +36,7 @@ export const ChatData = () => {
     }, [returnData])
 
     return <section className="chat-data">
-        <div className="chat-list w-full overflow-auto">
+        <div className="chat-list w-full overflow-auto border-solid border-2 border-gray-200 bg-slate-100 rounded-lg">
             <div className="py-3 m-2 sm:py-4 pl-2 pr-2 rounded-lg shadow bg-white">
                 <p>{ t('Chats list') }</p>
             </div>
@@ -59,7 +59,7 @@ export const ChatData = () => {
                                     <p className="text-sm text-gray-500 truncate dark:text-gray-400">
                                         {new Date(chatData.create_time).toLocaleString()}
                                     </p>
-                                <DeleteChatMemo id={chatData.id} />
+                                <DeleteChatMemo chatIdHandler={chatIdHandler} id={chatData.id} />
                                 </div>
                             </div>
                         </div>

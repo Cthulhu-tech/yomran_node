@@ -28,7 +28,7 @@ export const Connect = () => {
             }
         })
 
-    return <div className="max-w-screen-xl m-auto h-full flex flex-col justify-center items-center">
+    return <div className="bg-slate-100 max-w-screen-xl m-auto h-full flex flex-col justify-center items-center">
         <div className="w-full max-w-screen-xl m-auto px-4 py-16 sm:px-6 lg:px-8">
             <form onSubmit={handlerConnection} className="m-auto m-full mb-0 mt-8 max-w-md space-y-4">
                 <div>

@@ -1,6 +1,6 @@
 import { SocketContext } from "../../context/socketProvider"
+import { useLocation, useNavigate } from "react-router-dom"
 import { memo, useContext, useRef, useState } from "react"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
 
 import { Chat } from "../../components/chat/chat"
 import { UserVideo } from './userVideo/userVideo'
@@ -23,24 +23,21 @@ export const Video = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
     const location = useLocation()
-    console.log(location)
     const socket = useContext(SocketContext)
     
     const { connections, videoView, userJoin, removeVideo, replaceVideo, audioHandler, myVideoStream } = useMeshRTC(socket)
 
     const leaveHandler = () =>{
-        Object.values(connections).forEach((pc) => {
-            pc.close()
-        })
+        Object.values(connections).forEach((pc) => pc.close())
         if(myVideoStream.current) myVideoStream.current.getTracks().forEach( track => track.stop())
         socket.close()
         navigate('/')
     }
     const videoUser = useRef<HTMLVideoElement>(null)
 
-    const [hidden, setHidden] = useState(false)
     const [mute, setMute] = useState(false)
     const [chat, setChat] = useState(false)
+    const [hidden, setHidden] = useState(false)
 
     const [record, setRecord] = useState(false)
 
@@ -63,11 +60,10 @@ export const Video = () => {
     }
     
     return <div className={chat ? "bg-gray-200 h-full m-auto container_room transition-all delay-150" : "bg-gray-200 h-full m-auto container_room-full transition-all delay-150"}>
-        {chat && <Chat/>}
-        <section className="video_user px-5 pt-5">
+        <section className="video_user p-2">
             <MemoVideo videoUser={videoUser} hidden={hidden} userJoin={userJoin}/>
         </section>
-        <div className='video_users'>
+        <div className='video_users p-2'>
             {Object.values(connections).length === 0 ? 
             <div className="w-full flex p-1 justify-center items-center flex-col h-full">
                 <div className="w-full flex p-1 justify-between items-center flex-col text-center bg-white border h-full border-gray-200 rounded-lg shadow-inner dark:bg-gray-800 dark:border-gray-700">
@@ -81,12 +77,13 @@ export const Video = () => {
             Object.entries(connections)
             .map((connectArray) => {
                 return <video
-                    className="bg-slate-800 embed-responsive embed-responsive-16by9 relative w-96 rounded-xl overflow-hidden h-full mr-5"
+                    className="rounded-xl bg-slate-800 h-full"
                     key={connectArray[0]}
                     ref={reference => reference && videoView(connectArray[1], reference)}
                 ></video>
             })}
         </div>
+        {chat && <Chat socket={socket}/>}
         <div className={
             chat ?
             "input_control bg-white flex items-center justify-between p-5 rounded-bl-[20px] m-auto w-full h-full shadow-inner" :

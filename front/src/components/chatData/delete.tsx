@@ -1,10 +1,12 @@
 import { deleteChatList } from "../../redux/chatList/chatList"
+import { updateMessages } from "../../redux/message/message"
 import { useTranslation } from "react-i18next"
 import { useFetch } from "../../hook/hook"
 import { useDispatch } from "react-redux"
+
 import { useEffect } from "react"
 
-export const DeleteChat = ({ id }: { id: number }) => {
+export const DeleteChat = ({ id, chatIdHandler }: { id: number, chatIdHandler: (id: number | null) => void }) => {
 
     const { t } = useTranslation()
     const dispatch = useDispatch()
@@ -13,7 +15,22 @@ export const DeleteChat = ({ id }: { id: number }) => {
     const deleteChat = () => fetchData()
 
     useEffect(() => {
-        if(returnData.message === 'Chat delete') dispatch(deleteChatList(id))
+        if(returnData.message === 'Chat delete') {
+            dispatch(deleteChatList(id))
+            dispatch(updateMessages({
+                create_time: '',
+                delete: true,
+                chat_creater: {
+                    id: 0,
+                    login: '',
+                },
+                id: 0,
+                name: '',
+                messages: []
+            }
+            ))
+            chatIdHandler(null)
+        }
         
     }, [returnData])
 

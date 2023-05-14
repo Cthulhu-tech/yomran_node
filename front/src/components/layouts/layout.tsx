@@ -12,7 +12,7 @@ export const Layout = () => {
     return <div className='flex flex-col h-screen start'>
         <HeaderMemo/>
         <MenuMemo/>
-        <main className="main bg-slate-100 rounded-md overflow-hidden shadow-sm mt-2 mr-2 mb-2 ml-2">
+        <main className="main rounded-md overflow-hidden mt-2 mr-2 mb-2 ml-2">
             <Outlet />
         </main>
     </div>

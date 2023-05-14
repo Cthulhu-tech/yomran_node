@@ -46,6 +46,7 @@ export const _i18n = i18n
           "connection": "connection",
           "connection link": "connection link",
           "Link is required": "Link is required",
+          "Type your message…": "Type your message…",
         }
       },
       русский: {
@@ -89,6 +90,7 @@ export const _i18n = i18n
           "connection": "Подключиться",
           "connection link": "Ссылка на подключение",
           "Link is required": "Ссылка на подключение обязательна",
+          "Type your message…": "Введите своё сообщение",
         }
       }
     },

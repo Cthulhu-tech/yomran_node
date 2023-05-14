@@ -3,6 +3,10 @@ import { IAction, MessagesType } from "../type"
 const defaultState: MessagesType = {
     create_time: '',
     delete: true,
+    chat_creater: {
+        id: 0,
+        login: '',
+    },
     id: 0,
     name: '',
     messages: []

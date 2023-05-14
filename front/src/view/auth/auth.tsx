@@ -11,7 +11,7 @@ export const Auth = () => {
 
     if(token.access) return <Navigate to='/'/>
 
-    return  <section className="flex justify-center content-center items-center w-full h-full">
+    return  <section className="flex justify-center content-center items-center w-full h-full bg-slate-100">
         <div className="w-96 flex justify-center content-center items-center">
             <div className="w-32">
                 <NavLink 
