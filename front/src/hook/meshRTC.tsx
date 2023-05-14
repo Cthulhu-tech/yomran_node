@@ -10,7 +10,6 @@ import {
 } from "./type"
 
 import {
-    useCallback,
     useEffect,
     useMemo,
     useRef,
@@ -36,22 +35,22 @@ export const useMeshRTC = (socket: Socket) => {
         }
     },[])
 
-    const sendMessage = useCallback((message: string) => {
+    const sendMessage = (message: string) => {
         Object.values(dataChannels.current).forEach((channel) => {
             channel.send(message)
         })
-    }, [dataChannels])
+    }
 
-    const removeVideo = useCallback(() => {
+    const removeVideo = () => {
         Object.values(connections).forEach((connection) => {
             connection.getSenders().forEach((sendner) => {
                 if (sendner.track?.kind === "video") connection.removeTrack(sendner)
             })
         })
         sendMessage('video-stop')
-    }, [connections])
+    }
 
-    const replaceVideo = useCallback(async () => {
+    const replaceVideo = async () => {
         await navigator.mediaDevices.getUserMedia(await getContains())
             .then((stream) => {
                 const [videoTrack] = stream.getVideoTracks()
@@ -62,9 +61,9 @@ export const useMeshRTC = (socket: Socket) => {
                     })
                 })
             })
-    }, [connections])
+    }
 
-    const audioHandler = useCallback(async (on: boolean, userVideo: HTMLVideoElement | null) => {
+    const audioHandler = async (on: boolean, userVideo: HTMLVideoElement | null) => {
         if (!on) {
             if(myVideoStream.current) myVideoStream.current.getAudioTracks().forEach((track) => {
                 track.enabled = true
@@ -78,15 +77,15 @@ export const useMeshRTC = (socket: Socket) => {
             if(userVideo) userVideo.muted = true
             console.log("Turning off microphone", myVideoStream.current && myVideoStream.current.getAudioTracks()[0])
         }
-    }, [myVideoStream])
+    }
 
-    const updateRef = useCallback((newData?: channelType<RTCPeerConnection>) => {
+    const updateRef = (newData?: channelType<RTCPeerConnection>) => {
         if(newData) peerConnections.current = {...peerConnections.current, ...newData || {}}
         else peerConnections.current = {...peerConnections.current}
         setConections(peerConnections.current)
-    },[])
+    }
 
-    const initiateDataChannel = useCallback((peerConnection: RTCPeerConnection, user: string) => {
+    const initiateDataChannel = (peerConnection: RTCPeerConnection, user: string) => {
         const dataChannel = peerConnection.createDataChannel(user)
         dataChannel.onopen = () => {
             dataChannel.onmessage = (message) => {
@@ -94,9 +93,9 @@ export const useMeshRTC = (socket: Socket) => {
             }
         }
         dataChannels.current[user] = dataChannel
-    },[])
+    }
 
-    const getContains = useCallback(() => {
+    const getContains =() => {
         return navigator.mediaDevices.enumerateDevices()
         .then(devices => {
             const cams = devices.filter(device => device.kind === "videoinput")
@@ -121,9 +120,9 @@ export const useMeshRTC = (socket: Socket) => {
 
             return constraints
         })
-    }, [])
+    }
 
-    const userJoin = useCallback(async (localVideo: HTMLVideoElement) => {
+    const userJoin = async (localVideo: HTMLVideoElement) => {
         navigator.mediaDevices
             .getUserMedia(await getContains())
             .then((stream) => {
@@ -132,7 +131,7 @@ export const useMeshRTC = (socket: Socket) => {
                 localVideo.srcObject = stream
                 localVideo.autoplay = true
             })
-    }, [socket])
+    }
 
     const getStream = async (peerConnection: RTCPeerConnection) => {
         const streams = await navigator.mediaDevices.getUserMedia(await getContains())
@@ -228,14 +227,14 @@ export const useMeshRTC = (socket: Socket) => {
         }
     }, [socket])
 
-    const videoView = useCallback((connection: RTCPeerConnection, entity: HTMLVideoElement) => {
+    const videoView = (connection: RTCPeerConnection, entity: HTMLVideoElement) => {
         console.log(entity)
         connection.ontrack = e => {
             console.log('ontrack work!')
             entity.autoplay = true
             entity.srcObject = e.streams[0]
         }
-    }, [])
+    }
 
     return { connections, videoView, userJoin , removeVideo, replaceVideo, audioHandler, myVideoStream }
 }

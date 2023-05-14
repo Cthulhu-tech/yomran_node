@@ -1,17 +1,21 @@
-import { Registration } from "../view/auth/registration/registration"
-import { Layout } from '../components/layouts/layout'
-import { Login } from "../view/auth/login/login"
-import { Auth } from "../view/auth/auth"
-
 import { RefreshLoader } from "../components/layouts/loader"
-import { ChatData } from "../components/chatData/chatData"
 import { SocketProvider } from "../context/socketProvider"
-import { NotFound } from "../components/notFound/notFound"
-import { ErrorElement } from "../components/error/error"
 import { createHashRouter } from "react-router-dom"
-import { Connect } from "../view/connect/connect"
-import { Create } from "../view/create/create"
-import { Video } from "../view/video/video"
+import { Suspense, lazy } from "react"
+
+import { Layout } from '../components/layouts/layout'
+import { Skeleton } from "../components/skeleton/skeleton"
+
+const Video = lazy(() => import("../view/video/video"))
+const Create = lazy(() => import("../view/create/create"))
+const Connect = lazy(() => import("../view/connect/connect"))
+const ErrorElement = lazy(() => import("../components/error/error"))
+const ChatData = lazy(() => import("../components/chatData/chatData"))
+const NotFound = lazy(() => import("../components/notFound/notFound"))
+
+const Auth = lazy(() => import("../view/auth/auth"))
+const Login = lazy(() => import("../view/auth/login/login"))
+const Registration = lazy(() => import("../view/auth/registration/registration"))
 
 export const router = createHashRouter([
 {
@@ -22,25 +26,35 @@ export const router = createHashRouter([
     children: [
         {
             index: true,
-            element: <ChatData/>
+            element: <Suspense fallback={<Skeleton/>}>
+                    <ChatData/>
+                </Suspense>
         },
         {
             path: '/create',
-            element: <Create/>
+            element: <Suspense fallback={<Skeleton/>}>
+                    <Create/>
+                </Suspense>
         },
         {
             path: '/connection',
-            element: <Connect/>
+            element: <Suspense fallback={<Skeleton/>}>
+                    <Connect/>
+                </Suspense>
         },
         {
             path: '/video/:id',
             element: <SocketProvider>
-                <Video/>
+                <Suspense fallback={<Skeleton/>}>
+                    <Video/>
+                </Suspense>
             </SocketProvider>
         },
         {
             path: '*',
-            element: <NotFound/>
+            element: <Suspense fallback={<Skeleton/>}>
+                <NotFound/>
+            </Suspense>
         }
     ]
 },
@@ -50,15 +64,21 @@ export const router = createHashRouter([
     children: [
         {
             index: true,
-            element: <Auth/>
+            element: <Suspense fallback={<Skeleton/>}>
+                <Auth/>
+            </Suspense>
         },
         {
             path: 'login',
-            element: <Login/>
+            element: <Suspense fallback={<Skeleton/>}>
+                <Login/>
+            </Suspense>
         },
         {
             path: 'registration',
-            element: <Registration/>
+            element: <Suspense fallback={<Skeleton/>}>
+                <Registration/>
+            </Suspense>
         },
     ]
 },

@@ -1,7 +1,7 @@
 import { Navigate, useLocation, useRouteError } from "react-router-dom"
 import { AxiosError } from "axios"
 
-export const ErrorElement = () => {
+const ErrorElement = () => {
 
     const location = useLocation()
     const error = useRouteError() as AxiosError
@@ -11,3 +11,5 @@ export const ErrorElement = () => {
 
     return <>{error.message}</>
 }
+
+export default ErrorElement

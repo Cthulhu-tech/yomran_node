@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux"
 import { UserRegistration } from "./type"
 import { useEffect } from "react"
 
-export const Registration = () => {
+const Registration = () => {
 
     const { t } = useTranslation()
     const dispatch = useDispatch()
@@ -78,3 +78,5 @@ export const Registration = () => {
     </form>
     </section>
 }
+
+export default Registration

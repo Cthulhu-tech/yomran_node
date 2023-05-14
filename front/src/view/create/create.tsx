@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom"
 
 declare const window: ElectronWindow
 
-export const Create = () => {
+const Create = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors }, getValues } = useForm<CreateType>()
@@ -79,3 +79,5 @@ export const Create = () => {
         </div>
     </div>
 }
+
+export default Create

@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode"
 import { DecodeLink } from "./type"
 import { useNavigate } from "react-router-dom"
 
-export const Connect = () => {
+const Connect = () => {
 
     const { t } = useTranslation()
     const navigate = useNavigate()
@@ -55,3 +55,5 @@ export const Connect = () => {
         </div>
     </div>
 }
+
+export default Connect

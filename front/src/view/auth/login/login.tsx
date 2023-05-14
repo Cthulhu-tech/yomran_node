@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux"
 import { UserLogin } from "./type"
 import { useEffect } from "react"
 
-export const Login = () => {
+const Login = () => {
 
     const { t } = useTranslation()
     const dispatch = useDispatch()
@@ -72,3 +72,5 @@ export const Login = () => {
     </form>
     </section>
 }
+
+export default Login

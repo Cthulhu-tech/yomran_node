@@ -3,7 +3,7 @@ import { IStore, TokenType } from "../../redux/type"
 import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
 
-export const Auth = () => {
+const Auth = () => {
 
     const { t } = useTranslation()
 
@@ -32,3 +32,5 @@ export const Auth = () => {
         </div>
     </section>
 }
+
+export default Auth

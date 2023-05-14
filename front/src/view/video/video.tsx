@@ -1,6 +1,6 @@
 import { SocketContext } from "../../context/socketProvider"
 import { useLocation, useNavigate } from "react-router-dom"
-import { memo, useContext, useRef, useState } from "react"
+import { memo, useCallback, useContext, useRef, useState } from "react"
 
 import { Chat } from "../../components/chat/chat"
 import { UserVideo } from './userVideo/userVideo'
@@ -18,8 +18,9 @@ import { VideoCameraXMark } from "../../components/icon/videoCameraXMark"
 import { useTranslation } from "react-i18next"
 
 const MemoVideo = memo(UserVideo)
+const ChatMemo = memo(Chat)
 
-export const Video = () => {
+const Video = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
     const location = useLocation()
@@ -27,12 +28,13 @@ export const Video = () => {
     
     const { connections, videoView, userJoin, removeVideo, replaceVideo, audioHandler, myVideoStream } = useMeshRTC(socket)
 
-    const leaveHandler = () =>{
+    const leaveHandler = useCallback(() =>{
         Object.values(connections).forEach((pc) => pc.close())
         if(myVideoStream.current) myVideoStream.current.getTracks().forEach( track => track.stop())
         socket.close()
         navigate('/')
-    }
+    }, [connections])
+    
     const videoUser = useRef<HTMLVideoElement>(null)
 
     const [mute, setMute] = useState(false)
@@ -83,7 +85,7 @@ export const Video = () => {
                 ></video>
             })}
         </div>
-        {chat && <Chat socket={socket}/>}
+        {chat && <ChatMemo socket={socket}/>}
         <div className={
             chat ?
             "input_control bg-white flex items-center justify-between p-5 rounded-bl-[20px] m-auto w-full h-full shadow-inner" :
@@ -138,3 +140,5 @@ export const Video = () => {
         </div>
     </div>
 }
+
+export default Video

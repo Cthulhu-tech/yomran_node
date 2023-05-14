@@ -1,6 +1,6 @@
+import { memo, useCallback, useEffect, useState } from "react"
 import { ChatMessage } from "../chatMessage/chatMessage"
 import { ChatsType, IStore } from "../../redux/type"
-import { memo, useEffect, useState } from "react"
 import { ChatId } from "../chatMessage/type"
 import { useFetch } from "../../hook/hook"
 import { DeleteChat } from "./delete"
@@ -10,13 +10,14 @@ import { updateChatList } from "../../redux/chatList/chatList"
 import './chatData.scss'
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
-import { useTranslation } from "react-i18next"
 import { NavLink } from "react-router-dom"
+
+import { useTranslation } from "react-i18next"
 
 const ChatMessageMemo = memo(ChatMessage)
 const DeleteChatMemo = memo(DeleteChat)
 
-export const ChatData = () => {
+const ChatData = () => {
 
     const dispatch = useDispatch()
     const { t } = useTranslation()
@@ -25,7 +26,7 @@ export const ChatData = () => {
 
     const [id, setChatId] = useState<ChatId>({ chatId: null })
 
-    const chatIdHandler = (id: number | null) => setChatId({ chatId: id })
+    const chatIdHandler = useCallback((id: number | null) => setChatId({ chatId: id }), [])
 
     useEffect(() => {
         fetchData()
@@ -79,3 +80,5 @@ export const ChatData = () => {
         <ChatMessageMemo chatId={id.chatId}/>
     </section>
 }
+
+export default ChatData

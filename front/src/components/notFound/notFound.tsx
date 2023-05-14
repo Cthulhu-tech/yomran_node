@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 
-export const NotFound = () => {
+const NotFound = () => {
 
     const location = useLocation()
     const { t } = useTranslation()
@@ -17,3 +17,5 @@ export const NotFound = () => {
         </div>
     </div>
 }
+
+export default NotFound
