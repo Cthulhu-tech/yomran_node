@@ -87,6 +87,9 @@ export const Menu = () => {
                         <NavLink to='/setting' >{ t('setting') }</NavLink>
                     </Dropdown.Item>
                     <Dropdown.Item>
+                        <NavLink to='/create' >{ t('create') }</NavLink>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
                         <span onClick={logoutHandler} >{ t('logout') }</span>
                     </Dropdown.Item>
                 </Dropdown>

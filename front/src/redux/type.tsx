@@ -24,6 +24,7 @@ export interface ChatsType {
     delete: boolean
     id: number
     name: string
+    chat_creater: MessageCreater
 }
 
 

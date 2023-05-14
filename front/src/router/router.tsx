@@ -8,6 +8,7 @@ import { ChatData } from "../components/chatData/chatData"
 import { SocketProvider } from "../context/socketProvider"
 import { ErrorElement } from "../components/error/error"
 import { createHashRouter } from "react-router-dom"
+import { Create } from "../view/create/create"
 import { Video } from "../view/video/video"
 
 export const router = createHashRouter([
@@ -20,6 +21,10 @@ export const router = createHashRouter([
         {
             index: true,
             element: <ChatData/>
+        },
+        {
+            path: '/create',
+            element: <Create/>
         },
         {
             path: '/video/:link',

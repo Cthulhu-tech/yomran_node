@@ -8,7 +8,7 @@ export const _i18n = i18n
       english: {
         translation: {
           "chat_list_name": "Chat save list",
-          "create": 'Create conference',
+          "create": 'create conference',
           "create_room": "Create room",
           "cancel": "Cancel",
           "room_name": "Room name",
@@ -50,7 +50,7 @@ export const _i18n = i18n
           "by this link": "по этой ссылке: ",
           "logout": "выход",
           "setting": "настройки",
-          "home": "стартовая"
+          "home": "стартовая",
         }
       }
     },
