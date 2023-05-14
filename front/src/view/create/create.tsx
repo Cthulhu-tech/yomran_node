@@ -5,23 +5,24 @@ import { useForm } from "react-hook-form"
 import { useEffect } from "react"
 
 import { ElectronWindow } from "../../interface/electron"
-import { redirect } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 declare const window: ElectronWindow
 
 export const Create = () => {
     const { t } = useTranslation()
+    const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors }, } = useForm<CreateType>()
     const { fetchData, returnData }= useFetch<CreateType, ChatsData>('chats/', 'POST', true)
 
     const handlerCreate = handleSubmit((data) => fetchData(data))
     const createRoomHandler = async () => {
         const data = await window.api.createRoom({ id: returnData.id, name: returnData.name })
-        redirect('video/' + data)
+        navigate('/video/' + data)
     }
 
     useEffect(() => {
-        if(returnData)
+        if(returnData?.id)
             createRoomHandler()
     }, [returnData])
 

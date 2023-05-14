@@ -63,7 +63,8 @@ export class UserInfo {
         })
     }
     async createRoom ({ id, name }: createRoom) {
-        const token = await sign({ id, name }, name + id)
+        console.log(id, name)
+        const token = await sign({ id, name }, `${name}`)
         return token
     }
 }
