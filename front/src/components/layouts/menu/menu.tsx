@@ -2,8 +2,8 @@ import { ElectronWindow } from "../../../interface/electron"
 import { updateToken } from "../../../redux/token/token"
 import { IStore, TokenType } from "../../../redux/type"
 import { NavLink, useNavigate } from "react-router-dom"
-import { logoutType, setting } from "./type"
 import { useFetch } from "../../../hook/hook"
+import { logoutType, setting } from "./type"
 import { useSelector } from "react-redux"
 import { Dropdown } from 'flowbite-react'
 import { useDispatch } from "react-redux"
@@ -75,36 +75,48 @@ export const Menu = () => {
     return <section className="menu shadow-sm mt-2 mr-2 mb-2 ml-2 p-2 rounded-md bg-indigo-100">
         <div className="flex h-full justify-between items-center">
             {token.access &&
-            <div className="m-2">
+            <div className="m-2 capitalize">
                 <Dropdown
                     label={token.user}
                     inline={true}
                 >
-                    <Dropdown.Item>
-                        <NavLink to='/' >{ t('home') }</NavLink>
-                    </Dropdown.Item>
-                    <Dropdown.Item>
-                        <NavLink to='/setting' >{ t('setting') }</NavLink>
-                    </Dropdown.Item>
-                    <Dropdown.Item>
-                        <NavLink to='/create' >{ t('create') }</NavLink>
-                    </Dropdown.Item>
-                    <Dropdown.Item>
-                        <span onClick={logoutHandler} >{ t('logout') }</span>
-                    </Dropdown.Item>
+                    <NavLink to='/' >
+                        <Dropdown.Item>
+                            { t('home') }
+                        </Dropdown.Item>
+                    </NavLink>
+                    <NavLink to='/setting'>
+                        <Dropdown.Item>
+                            { t('setting') }
+                        </Dropdown.Item>
+                    </NavLink>
+                    <NavLink to='/create' >
+                        <Dropdown.Item>
+                            { t('create conference') }
+                        </Dropdown.Item>
+                    </NavLink>
+                    <span onClick={logoutHandler}>
+                        <Dropdown.Item>
+                            { t('logout') }
+                        </Dropdown.Item>
+                    </span>
                 </Dropdown>
             </div>}
-            <div className="m-2">
+            <div className="m-2 capitalize">
                 <Dropdown
                     label={setting.language.toLocaleUpperCase()}
                     inline={true}
                 >
-                    <Dropdown.Item>
-                        <span onClick={changeLanguage}>English</span>
-                    </Dropdown.Item>
-                    <Dropdown.Item>
-                        <span onClick={changeLanguage}>Русский</span>
-                    </Dropdown.Item>
+                    <span onClick={changeLanguage}>
+                        <Dropdown.Item>
+                            English
+                        </Dropdown.Item>
+                    </span>
+                    <span onClick={changeLanguage}>
+                        <Dropdown.Item>
+                            Русский
+                        </Dropdown.Item>
+                    </span>
                 </Dropdown>
             </div>
         </div>
