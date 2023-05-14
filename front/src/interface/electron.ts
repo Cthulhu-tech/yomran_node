@@ -10,6 +10,6 @@ export interface ElectronWindow extends Window {
         getUserSetting: ({ login }: userLoginType) => Promise<User | null>
         createUserSetting: ({ login }: userLoginType) => Promise<User | null>
         changeLanguage: ({ id, language, login }: changeLanguage) => Promise<User | null>
-        createRoom: ({ id, name }: createRoom) => Promise<string>
+        createRoom: ({ id, name, password }: createRoom) => Promise<string>
     }
 }

@@ -29,11 +29,11 @@ export const router = createHashRouter([
             element: <Create/>
         },
         {
-            path: '/connect',
+            path: '/connection',
             element: <Connect/>
         },
         {
-            path: '/video/:link',
+            path: '/video/:id',
             element: <SocketProvider>
                 <Video/>
             </SocketProvider>

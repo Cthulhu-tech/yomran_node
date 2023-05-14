@@ -12,12 +12,12 @@ declare const window: ElectronWindow
 export const Create = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const { register, handleSubmit, formState: { errors }, } = useForm<CreateType>()
+    const { register, handleSubmit, formState: { errors }, getValues } = useForm<CreateType>()
     const { fetchData, returnData }= useFetch<CreateType, ChatsData>('chats/', 'POST', true)
 
     const handlerCreate = handleSubmit((data) => fetchData(data))
     const createRoomHandler = async () => {
-        const data = await window.api.createRoom({ id: returnData.id, name: returnData.name })
+        const data = await window.api.createRoom({ id: returnData.id, name: returnData.name, password: getValues().password })
         navigate('/video/' + returnData.id, {
             state: {
                 link: data

@@ -23,6 +23,7 @@ export const Video = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
     const location = useLocation()
+    console.log(location)
     const socket = useContext(SocketContext)
     
     const { connections, videoView, userJoin, removeVideo, replaceVideo, audioHandler, myVideoStream } = useMeshRTC(socket)
@@ -74,7 +75,7 @@ export const Video = () => {
                         t('waiting for your friends')
                     }</p>
                     <p>{t('by this link')}</p>
-                    <p className="break-all p-1">{location.state.link}</p>
+                    <p className="break-all p-1">{location?.state?.link}</p>
                 </div>
             </div> :
             Object.entries(connections)

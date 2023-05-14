@@ -19,7 +19,7 @@ import {
 
 export const useMeshRTC = (socket: Socket) => {
 
-    const { link } = useParams()
+    const { id } = useParams()
     const myVideoStream = useRef<MediaStream>()
     const dataChannels = useRef<channelType<RTCDataChannel>>({})
     const peerConnections = useRef<channelType<RTCPeerConnection>>({})
@@ -27,7 +27,7 @@ export const useMeshRTC = (socket: Socket) => {
     const offerOptions = useMemo(() => {
         return {
             offerToReceiveVideo: true,
-            offerToReceiveAudio: true 
+            offerToReceiveAudio: true
         }
     },[])
 
@@ -177,7 +177,7 @@ export const useMeshRTC = (socket: Socket) => {
     }
     useEffect(() => {
         
-        socket.emit('JOIN_ROOM', { room_id: link })
+        socket.emit('JOIN_ROOM', { room_id: id })
         socket.on('RECEIVE_CLIENT_JOINED', async ({ user_server_id }: RECEIVE_CLIENT_JOINED) => {
             const peerConnection = await createRTC(user_server_id, true)
             await initiateSignaling(peerConnection, user_server_id)

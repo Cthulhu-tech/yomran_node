@@ -92,6 +92,11 @@ export const Menu = () => {
                             { t('setting') }
                         </Dropdown.Item>
                     </NavLink>
+                    <NavLink to='/connection'>
+                        <Dropdown.Item>
+                            { t('connection') }
+                        </Dropdown.Item>
+                    </NavLink>
                     <NavLink to='/create' >
                         <Dropdown.Item>
                             { t('create conference') }

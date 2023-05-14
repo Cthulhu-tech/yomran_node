@@ -44,6 +44,8 @@ export const _i18n = i18n
           "It's empty here": "It's empty here",
           "Create?": "Create?",
           "connection": "connection",
+          "connection link": "connection link",
+          "Link is required": "Link is required",
         }
       },
       русский: {
@@ -85,6 +87,8 @@ export const _i18n = i18n
           "It's empty here": "Здесь пока пусто",
           "Create?": "Создать?",
           "connection": "Подключиться",
+          "connection link": "Ссылка на подключение",
+          "Link is required": "Ссылка на подключение обязательна",
         }
       }
     },
