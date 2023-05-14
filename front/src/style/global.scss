@@ -8,9 +8,13 @@
     box-sizing: border-box;
 }
 
+body {
+  overflow: hidden;
+}
+
 .start {
+    width: 100%;
     display: grid;
-    height: 100vh;
     grid-auto-columns: 1fr; 
     grid-template-columns: 1fr; 
     grid-template-rows: 40px 50px 1fr 1.8fr; 
@@ -22,9 +26,9 @@
       "main";
 }
 
-.main { 
+.main {
   grid-area: main;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 110px);
 }
 .aside { grid-area: aside; }
 .header { grid-area: header; }

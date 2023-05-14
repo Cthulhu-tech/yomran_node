@@ -14,7 +14,8 @@ import { MicrophoneCall } from "../../components/icon/microphoneCall"
 import { MicrophoneMute } from "../../components/icon/microphoneMute"
 import { VideoCameraCall } from "../../components/icon/videoCameraCall"
 import { VideoCameraXMark } from "../../components/icon/videoCameraXMark"
-import { t } from "i18next"
+
+import { useTranslation } from "react-i18next"
 
 const MemoVideo = memo(UserVideo)
 
@@ -22,8 +23,18 @@ export const Video = () => {
 
     const { link } = useParams()
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const socket = useContext(SocketContext)
-    const leaveHandler = () => navigate('/')
+    
+    const { connections, videoView, userJoin, removeVideo, replaceVideo, audioHandler, myVideoStream } = useMeshRTC(socket)
+
+    const leaveHandler = () =>{
+        Object.values(connections).forEach((pc) => {
+            pc.close()
+        })
+        if(myVideoStream.current) myVideoStream.current.getTracks().forEach( track => track.stop())
+        navigate('/')
+    }
     const videoUser = useRef<HTMLVideoElement>(null)
 
     const [hidden, setHidden] = useState(false)
@@ -49,15 +60,13 @@ export const Video = () => {
             return !prevState
         })
     }
-
-    const { connections, videoView, userJoin, removeVideo, replaceVideo, audioHandler } = useMeshRTC(socket)
     
     return <div className={chat ? "bg-gray-200 h-full m-auto container_room transition-all delay-150" : "bg-gray-200 h-full m-auto container_room-full transition-all delay-150"}>
         {chat && <Chat/>}
-        <section className="video_user p-5">
+        <section className="video_user px-5 pt-5">
             <MemoVideo videoUser={videoUser} hidden={hidden} userJoin={userJoin}/>
         </section>
-        <div className='pb-5 pt-5 overflow-y-auto video_users flex items-start m-auto w-full h-full'>
+        <div className='video_users'>
             {Object.values(connections).length === 0 ? 
             <div className="w-full flex justify-center items-center flex-col h-full">
                 <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow-inner dark:bg-gray-800 dark:border-gray-700">
@@ -126,9 +135,9 @@ export const Video = () => {
             </div>
             <button
                 onClick={leaveHandler}
-                className="btn_exit h-12 select-none bg-rose-400 hover:bg-rose-600 duration-150 text-white font-bold py-2 px-4 rounded-full capitalize w-36 cursor-pointer"
+                className="btn_exit h-12 select-none w-28 bg-rose-400 hover:bg-rose-600 duration-150 text-white font-bold rounded-full capitalize cursor-pointer"
             >
-                End call
+                { t('End call') }
             </button>
         </div>
     </div>

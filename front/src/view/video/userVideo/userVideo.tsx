@@ -9,14 +9,13 @@ export const UserVideo = ({ userJoin, videoUser, hidden }: UserVideoType) => {
             userJoin(videoUser.current)
     }, [videoUser])
 
-    return <div className="relative w-full overflow-hidden max-w-screen-xl m-auto">
-        <div className={hidden ?
-            " rounded-xl bg-slate-800 w-full z-50" :
-            "rounded-xl bg-slate-800 w-full z-0"
-            }></div>
+    return <div className="h-full flex justify-center items-center">
+        {hidden ?
+        <div className="rounded-xl bg-slate-800 w-full"></div> :
         <video
-            className=" rounded-xl bg-slate-800 w-full z-20"
+            className="rounded-xl bg-slate-800 h-full"
             ref={videoUser}
         ></video>
+        }
     </div>
 }

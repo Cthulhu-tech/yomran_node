@@ -1,8 +1,7 @@
 .container_room {
     display: grid;
     grid-template-columns: 1fr minmax(200px, 400px); 
-    grid-template-rows: 1fr 1fr 140px; 
-    gap: 0px 0px;
+    grid-template-rows: 1.2fr minmax(150px, 200px) 140px;
     transition: 500ms;
     grid-template-areas: 
       "video_user chat"
@@ -13,8 +12,7 @@
 .container_room-full {
   display: grid;
   grid-auto-columns: 1fr; 
-  grid-template-rows: 1fr 1fr 140px; 
-  gap: 0px 0px; 
+  grid-template-rows: 1.2fr minmax(150px, 200px) 140px;
   grid-template-areas: 
     "video_user"
     "video_users"
@@ -23,7 +21,7 @@
 
 .input_control {
   display: grid; 
-  grid-template-columns: 1fr 1fr minmax(145px, 160px);
+  grid-template-columns: minmax(150px, 1fr) minmax(150px, 1fr) minmax(100px, 160px);
   grid-template-rows: 1fr 1fr 1fr;
   gap: 0px 0px;
   transition: 500ms;
@@ -50,10 +48,6 @@
 .chat_text { grid-area: chat_text; }
 .btn_exit { grid-area: exit_button; }
 .video_user { grid-area: video_user; }
-.video_users { 
-  width: 100%;
-  height: auto;
-  grid-area: video_users;
- }
+.video_users { grid-area: video_users; }
 .controll_chat { grid-area: controll_chat; }
 .controll_button { grid-area: controll_button; }

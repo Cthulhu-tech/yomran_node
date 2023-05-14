@@ -226,5 +226,5 @@ export const useMeshRTC = (socket: Socket) => {
         }
     }, [])
 
-    return { connections, videoView, userJoin , removeVideo, replaceVideo, audioHandler }
+    return { connections, videoView, userJoin , removeVideo, replaceVideo, audioHandler, myVideoStream }
 }

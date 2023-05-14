@@ -38,6 +38,7 @@ export const _i18n = i18n
           "Home": "Home",
           "return": "return",
           "page": "page",
+          "End call": "End call",
         }
       },
       русский: {
@@ -73,6 +74,7 @@ export const _i18n = i18n
           "Home": "Домашняя",
           "return to": "вернуться на",
           "page": "страница",
+          "End call": "Завершить",
         }
       }
     },
