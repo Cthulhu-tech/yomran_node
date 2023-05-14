@@ -39,6 +39,10 @@ export const _i18n = i18n
           "return": "return",
           "page": "page",
           "End call": "End call",
+          "delete": "delete",
+          "Chats list": "Chats list",
+          "It's empty here": "It's empty here",
+          "Create?": "Create?"
         }
       },
       русский: {
@@ -75,6 +79,10 @@ export const _i18n = i18n
           "return to": "вернуться на",
           "page": "страница",
           "End call": "Завершить",
+          "delete": "Удалить",
+          "Chats list": "Ваши чаты",
+          "It's empty here": "Здесь пока пусто",
+          "Create?": "Создать?"
         }
       }
     },

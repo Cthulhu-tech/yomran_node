@@ -16,7 +16,7 @@ export const useFetch = <T = any,R = any>(url: string, method = 'GET', auth = fa
     let headers = {}
 
     const fetchData = async (data?:T) => {
-
+        setError({message: ''})
         if(auth) await checkToken(token.access || '') ?
         (headers = { 
             'Authorization': 'Bearer ' + token.access
