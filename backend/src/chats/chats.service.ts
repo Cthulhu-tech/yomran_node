@@ -13,7 +13,7 @@ export class ChatsService {
   ){}
 
   async create(createChatDto: CreateChatDto) {
-    if(!createChatDto.name) 
+    if(!createChatDto.name || !createChatDto.password) 
       throw new HttpException('All fields must be filled', HttpStatus.BAD_REQUEST)
 
     const createChat = await this.chatRepository.create({
@@ -26,6 +26,7 @@ export class ChatsService {
 
     return {
       name: saveChat.name,
+      password: saveChat.password,
       chat_creater: {
         login: saveChat.chat_creater.login,
         email: saveChat.chat_creater.email,
@@ -68,7 +69,7 @@ export class ChatsService {
       .andWhere('chat.delete = :delete', {
         delete: false
       })
-      .select(['chat.name', 'chat.id', 'chat.delete', 'chat.create_time'])
+      .select(['chat.name', 'chat.id', 'chat.delete', 'chat.create_time', 'chat_creater.id', 'chat_creater.login'])
       .getMany()
   }
 

@@ -113,7 +113,7 @@
     ]
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.1",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/node-notifier": "^8.0.2",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",

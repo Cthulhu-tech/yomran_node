@@ -34,6 +34,11 @@ export class ChatEntity extends BaseEntity {
     })
     delete: boolean
 
+    @Column('bool', {
+        default: true
+    })
+    work: boolean
+
     @CreateDateColumn()
     create_time: Date
 
