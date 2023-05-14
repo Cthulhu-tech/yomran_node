@@ -9,6 +9,7 @@ import { SocketProvider } from "../context/socketProvider"
 import { NotFound } from "../components/notFound/notFound"
 import { ErrorElement } from "../components/error/error"
 import { createHashRouter } from "react-router-dom"
+import { Connect } from "../view/connect/connect"
 import { Create } from "../view/create/create"
 import { Video } from "../view/video/video"
 
@@ -26,6 +27,10 @@ export const router = createHashRouter([
         {
             path: '/create',
             element: <Create/>
+        },
+        {
+            path: '/connect',
+            element: <Connect/>
         },
         {
             path: '/video/:link',
