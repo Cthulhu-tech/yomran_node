@@ -29,7 +29,7 @@ export const Registration = () => {
     return <section className="flex justify-center content-center w-full h-full">
     <form onSubmit={handlerLogin} className="flex flex-col justify-center max-w-lg content-center">
       <div>
-        <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('Login')}</span>
+        <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-white capitalize">{t('login')}</span>
         <input
          className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
          {...register('login', { required: "Login is required." })}
@@ -41,7 +41,7 @@ export const Registration = () => {
       </div>
       
       <div>
-        <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('Email')}</span>
+        <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-white capitalize">{t('email')}</span>
         <input
           type='email'
           className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -54,23 +54,26 @@ export const Registration = () => {
       </div>
 
       <div>
-        <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{t('Password')}</span>
-        <input className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          {...register('password', { required: "Password is required." })}
+        <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-white capitalize">{t('password')}</span>
+        <input
+          type="password"
+          placeholder={ t('password') as string }
+          className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          {...register('password', {
+            required: "Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter",
+            pattern: {
+              value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
+              message: "Password between 6-20 characters which contain at least one numeric digit, one uppercase and one lowercase letter"
+            },
+          })}
         />
         {errors.password &&
         <p
           className="mt-2 mb-2 text-sm text-red-800 rounded-lg"
         >{ t(errors.password.message as string) }</p>}
       </div>
-      <div>
-        {error.message &&
-          <p
-            className="mt-2 mb-2 text-sm text-red-800 rounded-lg"
-          >{ t(error.message) }</p>}
-      </div>
-      <button className="w-full bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-          { t('registration') }
+      <button className="w-full bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded capitalize">
+          { t('Registration') }
       </button>
     </form>
     </section>
