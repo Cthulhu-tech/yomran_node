@@ -34,6 +34,10 @@ export const _i18n = i18n
           "email": "email",
           "Submit": "Submit",
           "Creater": "Creater",
+          "Not Found URL: ": "Not Found URL: ",
+          "Home": "Home",
+          "return": "return",
+          "page": "page",
         }
       },
       русский: {
@@ -65,6 +69,10 @@ export const _i18n = i18n
           "email": "почта",
           "Submit": "Отправить",
           "Creater": "Создатель",
+          "Not Found URL: ": "Страница не найдена URL: ",
+          "Home": "Домашняя",
+          "return to": "вернуться на",
+          "page": "страница",
         }
       }
     },
