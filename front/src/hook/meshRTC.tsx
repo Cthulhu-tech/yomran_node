@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom"
 import { Socket } from "socket.io-client"
 import {
     RECEIVE_ANSWER,
@@ -18,6 +19,7 @@ import {
 
 export const useMeshRTC = (socket: Socket) => {
 
+    const { link } = useParams()
     const myVideoStream = useRef<MediaStream>()
     const dataChannels = useRef<channelType<RTCDataChannel>>({})
     const peerConnections = useRef<channelType<RTCPeerConnection>>({})
@@ -175,7 +177,7 @@ export const useMeshRTC = (socket: Socket) => {
     }
     useEffect(() => {
         
-        socket.emit('JOIN_ROOM', { room_id: 8 })
+        socket.emit('JOIN_ROOM', { room_id: link })
         socket.on('RECEIVE_CLIENT_JOINED', async ({ user_server_id }: RECEIVE_CLIENT_JOINED) => {
             const peerConnection = await createRTC(user_server_id, true)
             await initiateSignaling(peerConnection, user_server_id)

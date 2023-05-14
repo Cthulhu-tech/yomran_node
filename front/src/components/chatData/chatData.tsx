@@ -21,7 +21,7 @@ export const ChatData = () => {
     const dispatch = useDispatch()
     const { t } = useTranslation()
     const messageList = useSelector<IStore, ChatsType[]>((store) => store.ChatList)
-    const { fetchData, returnData, loading } = useFetch<undefined, ChatsType[]>('chats', 'GET', true)
+    const { fetchData, returnData } = useFetch<undefined, ChatsType[]>('chats', 'GET', true)
 
     const [id, setChatId] = useState<ChatId>({ chatId: null })
 

@@ -1,7 +1,7 @@
 import { ElectronWindow } from "../../../interface/electron"
 import { updateToken } from "../../../redux/token/token"
 import { IStore, TokenType } from "../../../redux/type"
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { useFetch } from "../../../hook/hook"
 import { logoutType, setting } from "./type"
 import { useSelector } from "react-redux"
@@ -17,6 +17,7 @@ export const Menu = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const location = useLocation()
     const [setting, setSetting] = useState<setting>({
         user: null,
         language: 'english'
@@ -41,7 +42,8 @@ export const Menu = () => {
             language: newSetting?.settings[0]?.lang ? newSetting?.settings[0]?.lang : setting.language
         })
         
-        createUserSetting(login)
+        if(!newSetting) createUserSetting(login)
+        else i18n.changeLanguage(newSetting?.settings[0]?.lang || setting.language)
     }
     const createUserSetting = async (login: string) =>{
         const newSetting = await window.api.createUserSetting({ login })
@@ -74,7 +76,7 @@ export const Menu = () => {
 
     return <section className="menu shadow-sm mt-2 mr-2 mb-2 ml-2 p-2 rounded-md bg-indigo-100">
         <div className="flex h-full justify-between items-center">
-            {token.access &&
+            {token.access && !location.pathname.includes('video') &&
             <div className="m-2 capitalize">
                 <Dropdown
                     label={token.user}

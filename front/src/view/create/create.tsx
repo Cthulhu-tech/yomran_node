@@ -18,7 +18,11 @@ export const Create = () => {
     const handlerCreate = handleSubmit((data) => fetchData(data))
     const createRoomHandler = async () => {
         const data = await window.api.createRoom({ id: returnData.id, name: returnData.name })
-        navigate('/video/' + data)
+        navigate('/video/' + returnData.id, {
+            state: {
+                link: data
+            }
+        })
     }
 
     useEffect(() => {

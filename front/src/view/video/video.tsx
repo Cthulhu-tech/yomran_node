@@ -1,6 +1,6 @@
 import { SocketContext } from "../../context/socketProvider"
 import { memo, useContext, useRef, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 
 import { Chat } from "../../components/chat/chat"
 import { UserVideo } from './userVideo/userVideo'
@@ -20,10 +20,9 @@ import { useTranslation } from "react-i18next"
 const MemoVideo = memo(UserVideo)
 
 export const Video = () => {
-
-    const { link } = useParams()
     const navigate = useNavigate()
     const { t } = useTranslation()
+    const location = useLocation()
     const socket = useContext(SocketContext)
     
     const { connections, videoView, userJoin, removeVideo, replaceVideo, audioHandler, myVideoStream } = useMeshRTC(socket)
@@ -33,6 +32,7 @@ export const Video = () => {
             pc.close()
         })
         if(myVideoStream.current) myVideoStream.current.getTracks().forEach( track => track.stop())
+        socket.close()
         navigate('/')
     }
     const videoUser = useRef<HTMLVideoElement>(null)
@@ -68,15 +68,13 @@ export const Video = () => {
         </section>
         <div className='video_users'>
             {Object.values(connections).length === 0 ? 
-            <div className="w-full flex justify-center items-center flex-col h-full">
-                <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow-inner dark:bg-gray-800 dark:border-gray-700">
-                    <p className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">{
+            <div className="w-full flex p-1 justify-center items-center flex-col h-full">
+                <div className="w-full flex p-1 justify-between items-center flex-col text-center bg-white border h-full border-gray-200 rounded-lg shadow-inner dark:bg-gray-800 dark:border-gray-700">
+                    <p className="text-3xl font-bold text-gray-900 dark:text-white">{
                         t('waiting for your friends')
                     }</p>
                     <p>{t('by this link')}</p>
-                    <p className="w-full text-center p-3 font-bold text-gray-900 bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white select-all cursor-pointer">
-                        {link}
-                    </p>
+                    <p className="break-all p-1">{location.state.link}</p>
                 </div>
             </div> :
             Object.entries(connections)
@@ -93,7 +91,7 @@ export const Video = () => {
             "input_control bg-white flex items-center justify-between p-5 rounded-bl-[20px] m-auto w-full h-full shadow-inner" :
             "input_control bg-white flex items-center justify-between p-5 rounded-bl-[20px] rounded-br-[20px] m-auto w-full h-full shadow-inner"
         }>
-            <div className="flex w-3/4 controll_button h-full items-center justify-center m-auto">
+            <div className="flex controll_button h-full items-center justify-center m-auto">
                 <div
                     onClick={audio}
                     className={
