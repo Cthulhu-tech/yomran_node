@@ -4,12 +4,12 @@ import { createHashRouter } from "react-router-dom"
 import { Suspense, lazy } from "react"
 
 import { Layout } from '../components/layouts/layout'
+import { ErrorElement } from "../components/error/error"
 import { Skeleton } from "../components/skeleton/skeleton"
 
 const Video = lazy(() => import("../view/video/video"))
 const Create = lazy(() => import("../view/create/create"))
 const Connect = lazy(() => import("../view/connect/connect"))
-const ErrorElement = lazy(() => import("../components/error/error"))
 const ChatData = lazy(() => import("../components/chatData/chatData"))
 const NotFound = lazy(() => import("../components/notFound/notFound"))
 
