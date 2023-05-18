@@ -99,7 +99,7 @@ export class AuthService {
     }
   }
   async logout(res: Response) {
-    res.clearCookie('refreshtoken', { path: '/' })
+    res.clearCookie('refreshtoken', { path: '/', sameSite: 'none', secure: true })
     res.status(200).json({message: 'lagout'})
   }
 }
