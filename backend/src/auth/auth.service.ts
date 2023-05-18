@@ -39,6 +39,8 @@ export class AuthService {
       httpOnly: true,
       path: '/',
       expires: new Date(Date.now() + 432000000),
+      secure: true,
+      sameSite: 'none',
     })
   }
 
