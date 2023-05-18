@@ -22,13 +22,12 @@ export const useFetch = <T = any,R = any>(url: string, method = 'GET', auth = fa
             'Authorization': 'Bearer ' + token.access
         }) :
         redirect("/login")
-
+        axios.defaults.withCredentials = true
         await axios<R>({
             method,
             url: process.env.REACT_APP_SERVER + url,
             data,
             headers, 
-            withCredentials: true
         })
         .then((response) => {
             if(response.status >= 400) return Promise.reject(response.data)

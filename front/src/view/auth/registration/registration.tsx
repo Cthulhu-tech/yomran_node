@@ -20,7 +20,7 @@ const Registration = () => {
     const handlerLogin = handleSubmit((data) => fetchData(data))
 
     useEffect(() => {
-      if(!error && returnData?.access){
+      if(!error.message && returnData.id){
         dispatch(updateToken(returnData.access))
         navigate('/')
       }
