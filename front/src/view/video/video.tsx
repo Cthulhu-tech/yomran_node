@@ -65,7 +65,7 @@ const Video = () => {
         <section className="video_user p-2">
             <MemoVideo videoUser={videoUser} hidden={hidden} userJoin={userJoin}/>
         </section>
-        <div className='video_users p-2'>
+        <div className='video_users p-2 flex w-100'>
             {Object.values(connections).length === 0 ? 
             <div className="w-full flex p-1 justify-center items-center flex-col h-full">
                 <div className="w-full flex p-1 justify-between items-center flex-col text-center bg-white border h-full border-gray-200 rounded-lg shadow-inner dark:bg-gray-800 dark:border-gray-700">
@@ -79,7 +79,7 @@ const Video = () => {
             Object.entries(connections)
             .map((connectArray) => {
                 return <video
-                    className="rounded-xl bg-slate-800 h-full"
+                    className="rounded-xl bg-slate-800 h-full mr-1"
                     key={connectArray[0]}
                     ref={reference => reference && videoView(connectArray[1], reference)}
                 ></video>
